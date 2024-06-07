@@ -5,10 +5,14 @@
 
 {% block body %}
 <h1>Créer un Utilisateur</h1>
-{# Formulaire de création #}
-<form method="post">
-    {# Form fields... #}
-    <button type="submit">Enregistrer</button>
-</form>
+
+{{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.prenom) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.save) }}
+{{ form_end(form) }}
+
 <a href="{{ path('utilisateur_index') }}">Retour à la liste</a>
 {% endblock %}

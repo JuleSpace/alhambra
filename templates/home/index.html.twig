@@ -1,10 +1,15 @@
-{# templates/home/index.html.twig #}
-
+{# templates/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Home Page!</h1>
-<p>This is a simple page created to test the setup of your Symfony project.</p>
+<h1>Bienvenue à l'application de gestion d'association</h1>
+
+<ul>
+    <li><a href="{{ path('utilisateur_index') }}">Gestion des Utilisateurs</a></li>
+    <li><a href="{{ path('commission_index') }}">Gestion des Commissions</a></li>
+    <li><a href="{{ path('post_index') }}">Gestion des Posts</a></li>
+    <li><a href="{{ path('privilege_index') }}">Gestion des Privilèges</a></li>
+</ul>
 {% endblock %}
