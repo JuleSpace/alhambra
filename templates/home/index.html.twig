@@ -1,15 +1,16 @@
-{# templates/index.html.twig #}
+{# templates/home/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<h1>Bienvenue à l'application de gestion d'association</h1>
+<h1>Bienvenue à l'application de gestion d'association Alhambra</h1>
 
 <ul>
     <li><a href="{{ path('utilisateur_index') }}">Gestion des Utilisateurs</a></li>
     <li><a href="{{ path('commission_index') }}">Gestion des Commissions</a></li>
     <li><a href="{{ path('post_index') }}">Gestion des Posts</a></li>
     <li><a href="{{ path('privilege_index') }}">Gestion des Privilèges</a></li>
+    <li><a href="{{ path('chat_index') }}">Chat</a></li>
 </ul>
 {% endblock %}
