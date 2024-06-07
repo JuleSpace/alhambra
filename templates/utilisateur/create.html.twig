@@ -1,0 +1,14 @@
+{# templates/utilisateur/create.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Utilisateur{% endblock %}
+
+{% block body %}
+<h1>Créer un Utilisateur</h1>
+{# Formulaire de création #}
+<form method="post">
+    {# Form fields... #}
+    <button type="submit">Enregistrer</button>
+</form>
+<a href="{{ path('utilisateur_index') }}">Retour à la liste</a>
+{% endblock %}

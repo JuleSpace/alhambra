@@ -1,0 +1,14 @@
+{# templates/commission/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commissions{% endblock %}
+
+{% block body %}
+<h1>Liste des commissions</h1>
+<ul>
+    {% for commission in commissions %}
+        <li>{{ commission.nom }} {{ commission.prenom }} - <a href="{{ path('commissionr_show', {id: commission.id}) }}">Voir</a></li>
+    {% endfor %}
+</ul>
+<a href="{{ path('commission_create') }}">Créer une nouvelle commission</a>
+{% endblock %}

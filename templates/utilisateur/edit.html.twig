@@ -1,0 +1,14 @@
+{# templates/utilisateur/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Utilisateur{% endblock %}
+
+{% block body %}
+<h1>Modifier l'Utilisateur</h1>
+{# Formulaire de modification #}
+<form method="post">
+    {# Form fields... #}
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+<a href="{{ path('utilisateur_index') }}">Retour à la liste</a>
+{% endblock %}
