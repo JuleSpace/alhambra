@@ -1,0 +1,54 @@
+{# templates/chat/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+<h1>Chat</h1>
+
+<div id="chat-container">
+    <div id="messages">
+        {% for message in messages %}
+            <div class="message">
+                <strong>{{ message.sender.nom }} {{ message.sender.prenom }}:</strong>
+                <p>{{ message.content }}</p>
+                <span class="timestamp">{{ message.timestamp|date('H:i') }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <form id="chat-form" action="{{ path('chat_send') }}" method="post">
+        <input type="text" name="content" id="content" required>
+        <button type="submit">Envoyer</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('chat-form');
+    const messagesDiv = document.getElementById('messages');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (response.ok) {
+            const newMessage = await response.json();
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.innerHTML = `<strong>${newMessage.sender.nom} ${newMessage.sender.prenom}:</strong>
+                                    <p>${newMessage.content}</p>
+                                    <span class="timestamp">${newMessage.timestamp}</span>`;
+            messagesDiv.appendChild(messageDiv);
+            form.reset();
+        }
+    });
+</script>
+{% endblock %}

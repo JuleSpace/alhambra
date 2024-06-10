@@ -6,3 +6,11 @@ controllers:
 home:
     path: /
     controller: App\Controller\HomeController::index
+chat_index:
+    path: /chat
+    controller: App\Controller\ChatController::index
+
+chat_send:
+    path: /chat/send
+    controller: App\Controller\ChatController::send
+    methods: POST
