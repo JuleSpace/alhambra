@@ -17,22 +17,22 @@ chat_send:
 
 utilisateur_index:
     path: /utilisateur
-    controller: App\Controller\UtilisateurControleur::index
+    controller: App\Controller\UtilisateurController::index
 
 utilisateur_new:
     path: /utilisateur/new
-    controller: App\Controller\UtilisateurControleur::new
+    controller: App\Controller\UtilisateurController::new
 
 utilisateur_show:
     path: /utilisateur/{id}
-    controller: App\Controller\UtilisateurControleur::show
+    controller: App\Controller\UtilisateurController::show
 
 utilisateur_edit:
     path: /utilisateur/{id}/edit
-    controller: App\Controller\UtilisateurControleur::edit
+    controller: App\Controller\UtilisateurController::edit
 
 utilisateur_delete:
     path: /utilisateur/{id}
-    controller: App\Controller\UtilisateurControleur::delete
+    controller: App\Controller\UtilisateurController::delete
     methods: DELETE
 
