@@ -1,0 +1,15 @@
+{# templates/post/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Post{% endblock %}
+
+{% block body %}
+<h1>Détails du Post</h1>
+<p>{{ post.contenu }}</p>
+<p>Publié le : {{ post.datePublication|date('d/m/Y H:i') }}</p>
+<p>Auteur : {{ post.auteur.nom }} {{ post.auteur.prenom }}</p>
+<p>Commission : {{ post.commission.nom }}</p>
+
+<a href="{{ path('post_edit', {id: post.id}) }}">Modifier</a>
+<a href="{{ path('post_index') }}">Retour à la liste</a>
+{% endblock %}

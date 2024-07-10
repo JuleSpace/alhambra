@@ -1,0 +1,20 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Include your CSS files here #}
+    </head>
+    <body>
+        <header>
+            {# Your navigation header here #}
+        </header>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+        <footer>
+            {# Your footer here #}
+        </footer>
+    </body>
+</html>

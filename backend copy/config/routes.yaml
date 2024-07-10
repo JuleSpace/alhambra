@@ -1,0 +1,38 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+chat_index:
+    path: /chat
+    controller: App\Controller\ChatController::index
+
+chat_send:
+    path: /chat/send
+    controller: App\Controller\ChatController::send
+    methods: POST
+
+utilisateur_index:
+    path: /utilisateur
+    controller: App\Controller\UtilisateurController::index
+
+utilisateur_new:
+    path: /utilisateur/new
+    controller: App\Controller\UtilisateurController::new
+
+utilisateur_show:
+    path: /utilisateur/{id}
+    controller: App\Controller\UtilisateurController::show
+
+utilisateur_edit:
+    path: /utilisateur/{id}/edit
+    controller: App\Controller\UtilisateurController::edit
+
+utilisateur_delete:
+    path: /utilisateur/{id}
+    controller: App\Controller\UtilisateurController::delete
+    methods: DELETE
+
