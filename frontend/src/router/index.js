@@ -8,29 +8,29 @@ const routes = [
     component: Home,
   },
   {
-    path: '/Utilisateur',
+    path: '/utilisateur',
     name: 'Utilisateur',
-    component: () => import('./Utilisateur/index.vue'),
+    component: () => import('./views/utilisateur/index.vue'),
   },
   {
-    path: '/Privilèges',
+    path: '/privilèges',
     name: 'Privilèges',
-    component: () => import('./Privilèges/index.vue'),
+    component: () => import('./views/privileges/index.vue'),
   },
   {
-    path: '/Posts',
+    path: '/posts',
     name: 'Posts',
-    component: () => import('./Posts/index.vue'),
+    component: () => import('./views/posts/index.vue'),
   },
   {
-    path: '/Commissions',
+    path: '/commissions',
     name: 'Commissions',
-    component: () => import('./Commissions/index.vue'),
+    component: () => import('./views/commissions/index.vue'),
   },
   {
-    path: '/Chat',
+    path: '/chat',
     name: 'Chat',
-    component: () => import('./Chat/index.vue'),
+    component: () => import('./views/chat/index.vue'),
   },
 ];
 
