@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/home.vue';
+import Utilisateur from '../views/Utilisateur/index.vue';
+import Privileges from '../views/Privileges/index.vue';
+import Posts from '../views/Posts/index.vue';
+import Commissions from '../views/Commissions/index.vue';
+import Chat from '../views/Chat/index.vue';
+
 
 const routes = [
   {
@@ -8,29 +14,29 @@ const routes = [
     component: Home,
   },
   {
-    path: '/utilisateur',
+    path: '/Utilisateur',
     name: 'Utilisateur',
-    component: () => import('./views/utilisateur/index.vue'),
+    component: Utilisateur,
   },
   {
-    path: '/privilèges',
+    path: '/Privileges',
     name: 'Privilèges',
-    component: () => import('./views/privileges/index.vue'),
+    component: Privileges,
   },
   {
-    path: '/posts',
+    path: '/Posts',
     name: 'Posts',
-    component: () => import('./views/posts/index.vue'),
+    ccomponent: Posts,
   },
   {
-    path: '/commissions',
+    path: '/Commissions',
     name: 'Commissions',
-    component: () => import('./views/commissions/index.vue'),
+    component: Commissions,
   },
   {
-    path: '/chat',
+    path: '/Chat',
     name: 'Chat',
-    component: () => import('./views/chat/index.vue'),
+    component: Chat,
   },
 ];
 
