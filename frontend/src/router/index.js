@@ -6,7 +6,6 @@ import Posts from '../views/Posts/index.vue';
 import Commissions from '../views/Commissions/index.vue';
 import Chat from '../views/Chat/index.vue';
 
-
 const routes = [
   {
     path: '/',
@@ -20,13 +19,13 @@ const routes = [
   },
   {
     path: '/Privileges',
-    name: 'Privilèges',
+    name: 'Privileges',
     component: Privileges,
   },
   {
     path: '/Posts',
     name: 'Posts',
-    ccomponent: Posts,
+    component: Posts,
   },
   {
     path: '/Commissions',
@@ -46,4 +45,3 @@ const router = createRouter({
 });
 
 export default router;
-
