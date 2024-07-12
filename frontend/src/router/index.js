@@ -3,8 +3,8 @@ import Home from '../views/home.vue';
 import Utilisateur from '../views/Utilisateur/index.vue';
 import Privileges from '../views/Privileges/index.vue';
 import Posts from '../views/Posts/index.vue';
-import Commissions from '../views/Commissions/index.vue';
-import Chat from '../views/Chat/index.vue';
+import Commissions from '../views/commissions/index.vue';
+import Chat from '../views/chat/index.vue';
 
 const routes = [
   {
