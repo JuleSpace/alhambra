@@ -8,6 +8,6 @@
 </template>
 
 <script>
-import UtilisateurListe from '@/components/UtilisateurListe.vue';
+/* import UtilisateurListe from '@/components/UtilisateurListe.vue';*/
 
 </script>
