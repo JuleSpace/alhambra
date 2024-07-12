@@ -3,11 +3,11 @@
     <h1>Bienvenue sur l'application de gestion de l'association Alhambra</h1>
 
     <ul>
-      <li>Gestion des Utilisateurs</li>
-      <li>Gestion des Commissions</li>
-      <li>Gestion des Posts</li>
-      <li>Gestion des Privilèges</li>
-      <li>Accès au chat</li>
+      <li><router-link to="/utilisateur">Gestion des Utilisateurs</router-link></li>
+      <li><router-link to="/commissions">Gestion des Commissions</router-link></li>
+      <li><router-link to="/posts">Gestion des Posts</router-link></li>
+      <li><router-link to="/privilèges">Gestion des Privilèges</router-link></li>
+      <li><router-link to="/chat">Accès au chat</router-link></li>
     </ul>
   </div>
 </template>
