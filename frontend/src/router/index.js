@@ -1,30 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ChatCreate from '../views/chat/create.vue';
-import ChatDelete from '../views/chat/delete.vue';
-import ChatEdit from '../views/chat/edit.vue';
-import Chat from '../views/chat/index.vue';
-import ChatShow from '../views/chat/show.vue';
-import CommissionsCreate from '../views/commissions/create.vue';
-import CommissionsDelete from '../views/commissions/delete.vue';
-import CommissionsEdit from '../views/commissions/edit.vue';
-import Commissions from '../views/commissions/index.vue';
-import CommissionsShow from '../views/commissions/show.vue';
+import ChatCreate from '../views/chat/ChatCreate.vue';
+import ChatDelete from '../views/chat/ChatDelete.vue';
+import ChatEdit from '../views/chat/ChatEdit.vue';
+import Chat from '../views/chat/ChatIndex.vue';
+import ChatShow from '../views/chat/ChatShow.vue';
+import CommissionsCreate from '../views/commissions/CommissionsCreate.vue';
+import CommissionsDelete from '../views/commissions/CommissionsDelete.vue';
+import CommissionsEdit from '../views/commissions/CommissionsEdit.vue';
+import Commissions from '../views/commissions/CommissionsIndex.vue';
+import CommissionsShow from '../views/commissions/CommissionsShow.vue';
 import Home from '../views/home.vue';
-import PostsCreate from '../views/Posts/create.vue';
-import PostsDelete from '../views/Posts/delete.vue';
-import PostsEdit from '../views/Posts/edit.vue';
-import Posts from '../views/Posts/index.vue';
-import PostsShow from '../views/Posts/show.vue';
-import PrivilegesCreate from '../views/Privileges/create.vue';
-import PrivilegesDelete from '../views/Privileges/delete.vue';
-import PrivilegesEdit from '../views/Privileges/edit.vue';
-import Privileges from '../views/Privileges/index.vue';
-import PrivilegesShow from '../views/Privileges/show.vue';
-import UtilisateurCreate from '../views/Utilisateur/create.vue';
-import UtilisateurDelete from '../views/Utilisateur/delete.vue';
-import UtilisateurEdit from '../views/Utilisateur/edit.vue';
-import Utilisateur from '../views/Utilisateur/index.vue';
-import UtilisateurShow from '../views/Utilisateur/show.vue';
+import PostsCreate from '../views/Posts/PostsCreate.vue';
+import PostsDelete from '../views/Posts/PostsDelete.vue';
+import PostsEdit from '../views/Posts/PostsEdit.vue';
+import Posts from '../views/Posts/PostsIndex.vue';
+import PostsShow from '../views/Posts/PostsShow.vue';
+import PrivilegesCreate from '../views/Privileges/PrivilegesCreate.vue';
+import PrivilegesDelete from '../views/Privileges/PrivilegesDelete.vue';
+import PrivilegesEdit from '../views/Privileges/PrivilegesEdit.vue';
+import Privileges from '../views/Privileges/PrivilegesIndex.vue';
+import PrivilegesShow from '../views/Privileges/PrivilegesShow.vue';
+import UtilisateurCreate from '../views/Utilisateur/UtilisateurCreate.vue';
+import UtilisateurDelete from '../views/Utilisateur/UtilisateurDelete.vue';
+import UtilisateurEdit from '../views/Utilisateur/UtilisateurEdit.vue';
+import Utilisateur from '../views/Utilisateur/UtilisateurIndex.vue';
+import UtilisateurShow from '../views/Utilisateur/UtilisateurShow.vue';
 
 const routes = [
   {
@@ -33,26 +33,26 @@ const routes = [
     component: Home,
   },
   {
-    path: '/utilisateur',
+    path: '/Utilisateur',
     component: Utilisateur,
     children: [
       {
-        path: 'create',
+        path: 'UtilisateurCreate',
         name: 'UtilisateurCreate',
         component: UtilisateurCreate,
       },
       {
-        path: 'show',
+        path: 'UtilisateurShow',
         name: 'UtilisateurShow',
         component: UtilisateurShow,
       },
       {
-        path: 'delete',
+        path: 'UtilisateurDelete',
         name: 'UtilisateurDelete',
         component: UtilisateurDelete,
       },
       {
-        path: 'edit',
+        path: 'UtilisateurEdit',
         name: 'UtilisateurEdit',
         component: UtilisateurEdit,
       },
@@ -63,22 +63,22 @@ const routes = [
     component: Privileges,
     children: [
       {
-        path: 'create',
+        path: 'PrivilegesCreate',
         name: 'PrivilegesCreate',
         component: PrivilegesCreate,
       },
       {
-        path: 'show',
+        path: 'PrivilegesShow',
         name: 'PrivilegesShow',
         component: PrivilegesShow,
       },
       {
-        path: 'delete',
+        path: 'PrivilegesDelete',
         name: 'PrivilegesDelete',
         component: PrivilegesDelete,
       },
       {
-        path: 'edit',
+        path: 'PrivilegesEdit',
         name: 'PrivilegesEdit',
         component: PrivilegesEdit,
       },
@@ -89,22 +89,22 @@ const routes = [
     component: Posts,
     children: [
       {
-        path: 'create',
+        path: 'PostsCreate',
         name: 'PostsCreate',
         component: PostsCreate,
       },
       {
-        path: 'show',
+        path: 'PostsShow',
         name: 'PostsShow',
         component: PostsShow,
       },
       {
-        path: 'delete',
+        path: 'PostsDelete',
         name: 'PostsDelete',
         component: PostsDelete,
       },
       {
-        path: 'edit',
+        path: 'PostsEdit',
         name: 'PostsEdit',
         component: PostsEdit,
       },
@@ -115,22 +115,22 @@ const routes = [
     component: Commissions,
     children: [
       {
-        path: 'create',
+        path: 'CommissionsCreate',
         name: 'CommissionsCreate',
         component: CommissionsCreate,
       },
       {
-        path: 'show',
+        path: 'CommissionsShow',
         name: 'CommissionsShow',
         component: CommissionsShow,
       },
       {
-        path: 'delete',
+        path: 'CommissionsDelete',
         name: 'CommissionsDelete',
         component: CommissionsDelete,
       },
       {
-        path: 'edit',
+        path: 'CommissionsEdit',
         name: 'CommissionsEdit',
         component: CommissionsEdit,
       },
@@ -141,22 +141,22 @@ const routes = [
     component: Chat,
     children: [
       {
-        path: 'create',
+        path: 'ChatCreate',
         name: 'ChatCreate',
         component: ChatCreate,
       },
       {
-        path: 'show',
+        path: 'ChatShow',
         name: 'ChatShow',
         component: ChatShow,
       },
       {
-        path: 'delete',
+        path: 'ChatDelete',
         name: 'ChatDelete',
         component: ChatDelete,
       },
       {
-        path: 'edit',
+        path: 'ChatEdit',
         name: 'ChatEdit',
         component: ChatEdit,
       },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Liste des Utilisateurs</h1>
+        <h1>Chat</h1>
         <UtilisateurListe/>
     </div>
 
