@@ -13,46 +13,42 @@ use Symfony\Bundle\SecurityBundle\Security;  // Correct namespace
 
 class ChatController extends AbstractController
 {
-    private $entityManager;
-    private $security;
-
-    public function __construct(EntityManagerInterface $entityManager, Security $security)
+    #[Route('/api/chat/messages', name: 'chat_messages', methods: ['GET'])]
+    public function getMessages(MessageRepository $messageRepository): JsonResponse
     {
-        $this->entityManager = $entityManager;
-        $this->security = $security;
+        $messages = $messageRepository->findBy([], ['createdAt' => 'ASC']);
+        $data = [];
+
+        foreach ($messages as $message) {
+            $data[] = [
+                'id' => $message->getId(),
+                'content' => $message->getContent(),
+                'sender' => $message->getSender()->getUsername(), // assuming sender is a relation to User entity
+                'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
+            ];
+        }
+
+        return new JsonResponse($data);
     }
 
-    #[Route('/chat', name: 'chat_index')]
-    public function index(): Response
+    #[Route('/api/chat/messages', name: 'chat_message_create', methods: ['POST'])]
+    public function createMessage(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $messages = $this->entityManager->getRepository(Message::class)->findBy([], ['timestamp' => 'ASC']);
+        $data = json_decode($request->getContent(), true);
 
-        return $this->render('chat/index.html.twig', [
-            'messages' => $messages,
-        ]);
-    }
-
-    #[Route('/chat/send', name: 'chat_send', methods: ['POST'])]
-    public function send(Request $request): Response
-    {
-        $content = $request->request->get('content');
+        if (empty($data['content']) || empty($data['sender'])) {
+            return new JsonResponse(['error' => 'Invalid data'], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         $message = new Message();
-        $message->setContent($content);
-        $message->setTimestamp(new \DateTime());
-        $message->setSender($this->security->getUser());
+        $message->setContent($data['content']);
+        $message->setSender($this->getUser()); // Assumes the user is authenticated
+        $message->setCreatedAt(new \DateTime());
 
-        $this->entityManager->persist($message);
-        $this->entityManager->flush();
+        $entityManager->persist($message);
+        $entityManager->flush();
 
-        return $this->json([
-            'content' => $message->getContent(),
-            'timestamp' => $message->getTimestamp()->format('H:i'),
-            'sender' => [
-                'nom' => $message->getSender()->getNom(),
-                'prenom' => $message->getSender()->getPrenom(),
-            ],
-        ]);
+        return new JsonResponse(['status' => 'Message created successfully!'], JsonResponse::HTTP_CREATED);
     }
 }
 
