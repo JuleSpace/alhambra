@@ -6,11 +6,15 @@
   
       <div class="content">
         <UtilisateurListe />
+        <router-link to="/create" class="create-button">Créer une Nouvelle Commission</router-link>
       </div>
     </div>
   </template>
+  <!--
+  <script>
+  // Si vous utilisez UtilisateurListe dans votre composant, assurez-vous de l'importer
+  import UtilisateurListe from '@/components/UtilisateurListe.vue';
   
-  <!--<script>
   export default {
     name: 'CommissionsList',
     components: {
@@ -53,6 +57,22 @@
   .content {
     width: 100%;
     max-width: 600px;
+  }
+  
+  /* Style pour le bouton de création */
+  .create-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #075e54; /* Couleur verte de WhatsApp */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .create-button:hover {
+    background-color: #dcf8c6; /* Couleur verte claire */
   }
   </style>
   
