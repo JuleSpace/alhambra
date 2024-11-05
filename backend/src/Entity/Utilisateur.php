@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Utilisateur
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
     private $id;
 
@@ -23,6 +23,9 @@ class Utilisateur
 
     #[ORM\Column(type: 'string', length: 100)]
     private $password;
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
 
     // Getters and Setters
 
@@ -78,5 +81,20 @@ class Utilisateur
 
         return $this;
     }
+
+    public function getRoles(): array
+    {
+        // Chaque utilisateur a par défaut le rôle ROLE_USER
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 }
-?>

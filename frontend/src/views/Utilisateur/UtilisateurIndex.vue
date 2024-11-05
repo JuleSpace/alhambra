@@ -1,26 +1,36 @@
 <template>
     <div class="user-list-container">
-      <header class="header">
+      <!-- Header pour le titre de la liste des utilisateurs -->
+      <div class="header">
         <h1>Liste des Utilisateurs</h1>
-      </header>
-  
+      </div>
+      
+      <!-- Contenu de la liste des utilisateurs -->
       <div class="content">
         <UtilisateurListe />
       </div>
   
-      <router-link to="/create" class="create-link">Créer un nouvel utilisateur</router-link>
+      <!-- Le bouton s'affiche uniquement si la route est exactement "/utilisateur" -->
+      <router-link 
+        v-if="$route.path === '/utilisateur'" 
+        to="/utilisateur/create"
+        class="create-link">
+        Créer un nouvel utilisateur
+      </router-link>
+      
+      <router-view />
     </div>
   </template>
   
-  <!--<script>
+  <script>
+  /*import UtilisateurListe from '@/components/UtilisateurListe.vue';
+  
   export default {
-    name: 'UserList',
     components: {
-      UtilisateurListe
-    }
-  };
+      UtilisateurListe,
+    },
+  };*/
   </script>
-  -->
   
   <style scoped>
   /* Style général du conteneur */

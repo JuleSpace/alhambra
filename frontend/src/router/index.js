@@ -1,30 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ChatCreate from '../views/chat/ChatCreate.vue';
-import ChatDelete from '../views/chat/ChatDelete.vue';
-import ChatEdit from '../views/chat/ChatEdit.vue';
-import Chat from '../views/chat/ChatIndex.vue';
-import ChatShow from '../views/chat/ChatShow.vue';
-import CommissionsCreate from '../views/commissions/CommissionsCreate.vue';
-import CommissionsDelete from '../views/commissions/CommissionsDelete.vue';
-import CommissionsEdit from '../views/commissions/CommissionsEdit.vue';
-import Commissions from '../views/commissions/CommissionsIndex.vue';
-import CommissionsShow from '../views/commissions/CommissionsShow.vue';
 import Home from '../views/home.vue';
+import ChatIndex from '../views/chat/ChatIndex.vue';
+import ChatCreate from '../views/chat/ChatCreate.vue';
+import ChatShow from '../views/chat/ChatShow.vue';
+import ChatEdit from '../views/chat/ChatEdit.vue';
+import ChatDelete from '../views/chat/ChatDelete.vue';
+import CommissionsIndex from '../views/commissions/CommissionsIndex.vue';
+import CommissionsCreate from '../views/commissions/CommissionsCreate.vue';
+import CommissionsShow from '../views/commissions/CommissionsShow.vue';
+import CommissionsEdit from '../views/commissions/CommissionsEdit.vue';
+import CommissionsDelete from '../views/commissions/CommissionsDelete.vue';
+import PostsIndex from '../views/Posts/PostsIndex.vue';
 import PostsCreate from '../views/Posts/PostsCreate.vue';
-import PostsDelete from '../views/Posts/PostsDelete.vue';
-import PostsEdit from '../views/Posts/PostsEdit.vue';
-import Posts from '../views/Posts/PostsIndex.vue';
 import PostsShow from '../views/Posts/PostsShow.vue';
+import PostsEdit from '../views/Posts/PostsEdit.vue';
+import PostsDelete from '../views/Posts/PostsDelete.vue';
+import PrivilegesIndex from '../views/Privileges/PrivilegesIndex.vue';
 import PrivilegesCreate from '../views/Privileges/PrivilegesCreate.vue';
-import PrivilegesDelete from '../views/Privileges/PrivilegesDelete.vue';
-import PrivilegesEdit from '../views/Privileges/PrivilegesEdit.vue';
-import Privileges from '../views/Privileges/PrivilegesIndex.vue';
 import PrivilegesShow from '../views/Privileges/PrivilegesShow.vue';
+import PrivilegesEdit from '../views/Privileges/PrivilegesEdit.vue';
+import PrivilegesDelete from '../views/Privileges/PrivilegesDelete.vue';
+import UtilisateurIndex from '../views/Utilisateur/UtilisateurIndex.vue';
 import UtilisateurCreate from '../views/Utilisateur/UtilisateurCreate.vue';
-import UtilisateurDelete from '../views/Utilisateur/UtilisateurDelete.vue';
-import UtilisateurEdit from '../views/Utilisateur/UtilisateurEdit.vue';
-import Utilisateur from '../views/Utilisateur/UtilisateurIndex.vue';
 import UtilisateurShow from '../views/Utilisateur/UtilisateurShow.vue';
+import UtilisateurEdit from '../views/Utilisateur/UtilisateurEdit.vue';
+import UtilisateurDelete from '../views/Utilisateur/UtilisateurDelete.vue';
 
 const routes = [
   {
@@ -33,132 +33,132 @@ const routes = [
     component: Home,
   },
   {
-    path: '/Utilisateur',
-    component: Utilisateur,
+    path: '/chat',
+    component: ChatIndex,
     children: [
       {
-        path: 'UtilisateurCreate',
-        name: 'UtilisateurCreate',
-        component: UtilisateurCreate,
+        path: 'create',
+        name: 'ChatCreate',
+        component: ChatCreate,
       },
       {
-        path: 'UtilisateurShow',
-        name: 'UtilisateurShow',
-        component: UtilisateurShow,
+        path: ':id',
+        name: 'ChatShow',
+        component: ChatShow,
       },
       {
-        path: 'UtilisateurDelete',
-        name: 'UtilisateurDelete',
-        component: UtilisateurDelete,
+        path: ':id/edit',
+        name: 'ChatEdit',
+        component: ChatEdit,
       },
       {
-        path: 'UtilisateurEdit',
-        name: 'UtilisateurEdit',
-        component: UtilisateurEdit,
-      },
-    ],
-  },
-  {
-    path: '/privileges',
-    component: Privileges,
-    children: [
-      {
-        path: 'PrivilegesCreate',
-        name: 'PrivilegesCreate',
-        component: PrivilegesCreate,
-      },
-      {
-        path: 'PrivilegesShow',
-        name: 'PrivilegesShow',
-        component: PrivilegesShow,
-      },
-      {
-        path: 'PrivilegesDelete',
-        name: 'PrivilegesDelete',
-        component: PrivilegesDelete,
-      },
-      {
-        path: 'PrivilegesEdit',
-        name: 'PrivilegesEdit',
-        component: PrivilegesEdit,
-      },
-    ],
-  },
-  {
-    path: '/posts',
-    component: Posts,
-    children: [
-      {
-        path: 'PostsCreate',
-        name: 'PostsCreate',
-        component: PostsCreate,
-      },
-      {
-        path: 'PostsShow',
-        name: 'PostsShow',
-        component: PostsShow,
-      },
-      {
-        path: 'PostsDelete',
-        name: 'PostsDelete',
-        component: PostsDelete,
-      },
-      {
-        path: 'PostsEdit',
-        name: 'PostsEdit',
-        component: PostsEdit,
+        path: ':id/delete',
+        name: 'ChatDelete',
+        component: ChatDelete,
       },
     ],
   },
   {
     path: '/commissions',
-    component: Commissions,
+    component: CommissionsIndex,
     children: [
       {
-        path: 'CommissionsCreate',
+        path: 'create',
         name: 'CommissionsCreate',
         component: CommissionsCreate,
       },
       {
-        path: 'CommissionsShow',
+        path: ':id',
         name: 'CommissionsShow',
         component: CommissionsShow,
       },
       {
-        path: 'CommissionsDelete',
-        name: 'CommissionsDelete',
-        component: CommissionsDelete,
-      },
-      {
-        path: 'CommissionsEdit',
+        path: ':id/edit',
         name: 'CommissionsEdit',
         component: CommissionsEdit,
+      },
+      {
+        path: ':id/delete',
+        name: 'CommissionsDelete',
+        component: CommissionsDelete,
       },
     ],
   },
   {
-    path: '/chat',
-    component: Chat,
+    path: '/posts',
+    component: PostsIndex,
     children: [
       {
-        path: 'ChatCreate',
-        name: 'ChatCreate',
-        component: ChatCreate,
+        path: 'create',
+        name: 'PostsCreate',
+        component: PostsCreate,
       },
       {
-        path: 'ChatShow',
-        name: 'ChatShow',
-        component: ChatShow,
+        path: ':id',
+        name: 'PostsShow',
+        component: PostsShow,
       },
       {
-        path: 'ChatDelete',
-        name: 'ChatDelete',
-        component: ChatDelete,
+        path: ':id/edit',
+        name: 'PostsEdit',
+        component: PostsEdit,
       },
       {
-        path: 'ChatEdit',
-        name: 'ChatEdit',
-        component: ChatEdit,
+        path: ':id/delete',
+        name: 'PostsDelete',
+        component: PostsDelete,
+      },
+    ],
+  },
+  {
+    path: '/privileges',
+    component: PrivilegesIndex,
+    children: [
+      {
+        path: 'create',
+        name: 'PrivilegesCreate',
+        component: PrivilegesCreate,
+      },
+      {
+        path: ':id',
+        name: 'PrivilegesShow',
+        component: PrivilegesShow,
+      },
+      {
+        path: ':id/edit',
+        name: 'PrivilegesEdit',
+        component: PrivilegesEdit,
+      },
+      {
+        path: ':id/delete',
+        name: 'PrivilegesDelete',
+        component: PrivilegesDelete,
+      },
+    ],
+  },
+  {
+    path: '/utilisateur',
+    component: UtilisateurIndex,
+    children: [
+      {
+        path: 'create',
+        name: 'UtilisateurCreate',
+        component: UtilisateurCreate,
+      },
+      {
+        path: ':id',
+        name: 'UtilisateurShow',
+        component: UtilisateurShow,
+      },
+      {
+        path: ':id/edit',
+        name: 'UtilisateurEdit',
+        component: UtilisateurEdit,
+      },
+      {
+        path: ':id/delete',
+        name: 'UtilisateurDelete',
+        component: UtilisateurDelete,
       },
     ],
   },
