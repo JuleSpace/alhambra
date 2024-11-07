@@ -11,11 +11,32 @@
       </div>
   
       <!-- Le bouton s'affiche uniquement si la route est exactement "/utilisateur" -->
-      <router-link 
-        v-if="$route.path === '/utilisateur'" 
+      <router-link
+        v-if="$route.path === '/utilisateur'"
         to="/utilisateur/create"
         class="create-link">
         Créer un nouvel utilisateur
+      </router-link>
+
+      <router-link
+        v-if="$route.path === '/utilisateur'"
+        to="/utilisateur/delete"
+        class="delete-link">
+        Suprimer un utilisateur
+      </router-link>
+
+      <router-link
+        v-if="$route.path === '/utilisateur'"
+        to="/utilisateur/edit"
+        class="edit-link">
+        Editer un utilisateur
+      </router-link>
+
+      <router-link
+        v-if="$route.path === '/utilisateur'"
+        to="/utilisateur/show"
+        class="show-link">
+        Voir tous les utilisateurs
       </router-link>
       
       <router-view />
@@ -23,13 +44,6 @@
   </template>
   
   <script>
-  /*import UtilisateurListe from '@/components/UtilisateurListe.vue';
-  
-  export default {
-    components: {
-      UtilisateurListe,
-    },
-  };*/
   </script>
   
   <style scoped>
