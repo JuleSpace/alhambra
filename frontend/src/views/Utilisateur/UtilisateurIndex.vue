@@ -22,7 +22,7 @@
         v-if="$route.path === '/utilisateur'"
         to="/utilisateur/delete"
         class="delete-link">
-        Suprimer un utilisateur
+        Supprimer un utilisateur
       </router-link>
 
       <router-link
