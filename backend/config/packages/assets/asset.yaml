@@ -1,0 +1,6 @@
+# config/packages/asset.yaml
+
+framework:
+    assets:
+        # Retirer ou commenter cette ligne si vous n'utilisez pas Webpack
+        # json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
