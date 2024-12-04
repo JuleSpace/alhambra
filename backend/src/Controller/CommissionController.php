@@ -22,16 +22,17 @@ class CommissionController extends AbstractController
     public function index(): JsonResponse
     {
         $commissions = $this->entityManager->getRepository(Commission::class)->findAll();
+        echo $commissions;
 
         $data = array_map(function ($commission) {
             return [
                 'id' => $commission->getId(),
                 'name' => $commission->getName(),
                 'description' => $commission->getDescription(),
+                
                 // Ajoutez les champs nécessaires
             ];
         }, $commissions);
-
         return $this->json($data);
     }
 
