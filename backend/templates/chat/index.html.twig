@@ -1,73 +1,16 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-center">Chat - Commission {{ commission.name|default('Globale') }}</h1>
+<h1>Liste des Commissions</h1>
 
-    <div class="card my-4">
-        <div class="card-header">
-            Messages
-        </div>
-        <div class="card-body" id="message-list">
-            {% if messages is empty %}
-                <p class="text-muted">Aucun message pour le moment.</p>
-            {% else %}
-                {% for message in messages %}
-                    <div class="message mb-3">
-                        <strong>{{ message.sender.username }}</strong> <span class="text-muted">({{ message.createdAt|date('Y-m-d H:i') }})</span>
-                        <p>{{ message.content }}</p>
-                        <hr>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            Envoyer un message
-        </div>
-        <div class="card-body">
-            <form id="message-form">
-                <div class="mb-3">
-                    <label for="message-content" class="form-label">Message</label>
-                    <textarea class="form-control" id="message-content" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Envoyer</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.getElementById('message-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const content = document.getElementById('message-content').value;
-
-        fetch('/api/chat/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: content,
-                commission: {{ commission.id|json_encode|raw }}
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de l\'envoi du message');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(data.status || 'Message envoyé avec succès');
-            location.reload(); // Recharge la page pour afficher le nouveau message
-        })
-        .catch(error => {
-            console.error('Erreur :', error);
-            alert('Impossible d\'envoyer le message.');
-        });
-    });
-</script>
+<ul>
+    {% for commission in commissions %}
+        <li>
+            <!-- Utilisation de 'commission' plutôt que 'commissionId' -->
+            <a href="{{ path('chat_show', {'commission': commission.id}) }}">
+                Accéder au chat de la commission {{ commission.nom }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}
