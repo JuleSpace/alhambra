@@ -16,7 +16,7 @@
             {% else %}
                 {% for message in messages %}
                     <div class="message mb-3">
-                        <strong>{{ message.sender }}</strong> <span class="text-muted">({{ message.createdAt }})</span>
+                        <strong>{{ message.sender.username }}</strong> <span class="text-muted">({{ message.createdAt|date('Y-m-d H:i') }})</span>
                         <p>{{ message.content }}</p>
                         <hr>
                     </div>
@@ -54,7 +54,7 @@
             },
             body: JSON.stringify({
                 content: content,
-                commission: {{ commission.id|default('null') }}
+                commission: {{ commission.id|json_encode|raw }}
             }),
         })
         .then(response => {
