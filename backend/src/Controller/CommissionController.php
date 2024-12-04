@@ -41,7 +41,7 @@ class CommissionController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $commission = new Commission();
-        $commission->setName($data['name']);
+        $commission->setNom($data['name']);
         $commission->setDescription($data['description']);
         // Ajoutez les setters nécessaires
 
