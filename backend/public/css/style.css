@@ -1,13 +1,13 @@
 /* Global styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    background: linear-gradient(135deg, #A5D6A7, #C8E6C9);  /* Dégradé de verts doux */
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;  /* Alignement vers le haut */
+    align-items: center;  /* Centrer horizontalement */
+    justify-content: flex-start; /* Alignement vers le haut */
     height: 100vh;
     color: #333;
 }
@@ -25,11 +25,12 @@ h1 {
 
 /* Unordered list (ul) */
 ul {
-    list-style: none; /* Remove default bullet points */
+    list-style: none; /* Supprimer les puces par défaut */
     padding: 0;
     margin: 0;
     width: 80%;
-    max-width: 500px;
+    max-width: 500px;  /* Limiter la largeur de la liste */
+    margin-top: 50px;  /* Ajouter de l'espace entre le titre et la liste */
 }
 
 /* List items (li) */
