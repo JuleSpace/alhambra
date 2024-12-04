@@ -1,29 +1,32 @@
 <?php
 
+// src/Entity/LinkCommUser.php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ParticipationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\LinkCommUserRepository")
  */
 #[ORM\Entity]
 class LinkCommUser
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: 'App\Entity\Utilisateur')]
-    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(nullable: false)]
     private $utilisateur;
 
     #[ORM\ManyToOne(targetEntity: 'App\Entity\Commission')]
-    #[ORM\JoinColumn(name: 'id_commission', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(nullable: false)]
     private $commission;
 
-    // Getters et Setters pour chaque propriété
+    // Getters et Setters
 
     public function getId(): ?int
     {
@@ -35,7 +38,7 @@ class LinkCommUser
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(Utilisateur $utilisateur): self
+    public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
         return $this;
@@ -46,7 +49,7 @@ class LinkCommUser
         return $this->commission;
     }
 
-    public function setCommission(Commission $commission): self
+    public function setCommission(?Commission $commission): self
     {
         $this->commission = $commission;
         return $this;
