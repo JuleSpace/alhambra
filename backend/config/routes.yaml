@@ -36,3 +36,12 @@ utilisateur_delete:
     controller: App\Controller\UtilisateurController::delete
     methods: DELETE
 
+chat_messages:
+    path: /api/chat/messages
+    controller: App\Controller\ChatController::getMessages
+    methods: ['GET']
+
+chat_message_create:
+    path: /api/chat/messages
+    controller: App\Controller\ChatController::createMessage
+    methods: ['POST']
