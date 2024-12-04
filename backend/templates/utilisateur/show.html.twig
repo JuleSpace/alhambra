@@ -14,11 +14,19 @@
             <input type="text" id="nom" name="nom" value="{{ utilisateur.nom }}" required />
         </div>
 
-        <!-- Champ pour modifier le prénom -->
-        <div>
-            <label for="prenom">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" value="{{ utilisateur.prenom }}" required />
-        </div>
+                        <!-- Bouton Delete -->
+                        <button  data-id="{{ utilisateur.id }}" onclick="deleteUser({{ utilisateur.id }})" class="delete-btn">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No users found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
         <!-- Champ pour modifier l'email -->
         <div>

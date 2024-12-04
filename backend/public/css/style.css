@@ -142,6 +142,7 @@ ul li {
     width: 100%; /* S'assurer que les éléments prennent toute la largeur disponible */
     max-width: 500px; /* Limiter la largeur maximale des éléments */
     margin: 10px auto; /* Centrer les éléments de la liste horizontalement */
+    
 }
 
 ul li a {
@@ -275,9 +276,7 @@ table tbody td {
 /* Style pour le formulaire */
 form {
     background-color: #ffffff;
-    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     max-width: 600px; /* Limiter la largeur du formulaire */
     margin: 30px auto; /* Centrer le formulaire */
 }
@@ -328,32 +327,23 @@ form input[type="text"]:focus, form textarea:focus {
     background-color: #388E3C;
     transform: translateY(0);
 }
-/* Spécifique au bouton de connexion */
-.btn-login {
-    background-color: #1E88E5;
+.back-to-main-button {
+    position: absolute;
+    top: calc(90px + 2.5em);  /* Décalage de 30px plus la hauteur du titre h1 */
+    right: 20px;  /* Décalage de 20px du côté gauche */
+    background-color: #388E3C;
     color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Spécifique au bouton d'inscription */
-.btn-register {
-    background-color: #FF9800;
-    color: white;
+.back-to-main-button:hover {
+    background-color: #66BB6A;
 }
-/* Centre les éléments enfants horizontalement */
-.centered-button {
-    display: flex;
-    justify-content: center; /* Centre les éléments horizontalement */
-    align-items: center; /* Centre les éléments verticalement si nécessaire */
-    flex-direction: column; /* Si vous avez plusieurs boutons, les empiler */
-    gap: 20px; /* Espacement entre les boutons */
-    margin-top: 30px; /* Optionnel, espacement du haut */
-}
-/* Appliquer une largeur égale à tous les boutons */
-.btn-primary {
-    width: 200px; /* Largeur fixe pour les boutons */
-    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
-    text-align: center; /* Centrer le texte dans le bouton */
-}
+
 /* CSS pour positionner le bouton de déconnexion */
 .logout-button {
     position: absolute;
@@ -370,4 +360,109 @@ form input[type="text"]:focus, form textarea:focus {
 
 .logout-button:hover {
     background-color: #66BB6A;
+}
+
+.btn-primary {
+    width: 200px; /* Largeur fixe pour les boutons */
+    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
+    text-align: center; /* Centrer le texte dans le bouton */
+    
+}
+
+.btn-secondary {
+    width: 200px; /* Largeur fixe pour les boutons */
+    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
+    text-align: center; /* Centrer le texte dans le bouton */
+    position: absolute;
+    top: calc(30px + 2.5em);  /* Décalage de 30px plus la hauteur du titre h1 (2.5em) */
+    left: 20px; /* Décalage de 20px du côté droit */
+    background-color: #388E3C;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #66BB6A;
+}
+
+ul li form {
+    margin: 0; /* Enlever les marges par défaut */
+    display: inline-block; /* S'assurer que le formulaire reste compact */
+    vertical-align: middle; /* Aligner verticalement avec le texte */
+}
+
+ul li form button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+    left: 280px;
+    background-color: transparent; /* Ajout pour supprimer les fonds blancs */
+
+}
+
+ul li form button.btn-danger {
+    background-color: #e74c3c; /* Rouge pour le bouton supprimer */
+    color: white;
+}
+
+ul li form button.btn-danger:hover {
+    background-color: #c0392b; /* Rouge plus sombre au survol */
+}
+
+ul li form button.btn-success {
+    background-color: #27ae60; /* Vert pour le bouton ajouter */
+    color: white;
+}
+
+ul li form button.btn-success:hover {
+    background-color: #229954; /* Vert plus sombre au survol */
+}
+
+/* Style pour les formulaires */
+form {
+    background-color: #ffffff; /* Fond blanc pour le formulaire */
+    border-radius: 8px; /* Coins arrondis */
+    max-width: 600px; /* Largeur maximale */
+    margin: 20px auto; /* Centré */
+}
+
+/* Style des labels */
+form label {
+    font-size: 1.1em;
+    color: #388E3C; /* Vert foncé */
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Style des champs de saisie (input et textarea) */
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 75%; /* Remplir toute la largeur */
+    padding: 10px 15px; /* Espacement interne */
+    margin-bottom: 20px; /* Espacement entre les champs */
+    border: 1px solid #ccc; /* Bordure grise douce */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1em; /* Taille de police */
+    color: #333; /* Couleur du texte */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre interne */
+    transition: border-color 0.3s ease; /* Animation douce pour le focus */
+}
+
+/* Effet au focus sur les champs */
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form textarea:focus {
+    border-color: #388E3C; /* Bordure verte foncé au focus */
+    outline: none; /* Pas de contour supplémentaire */
+    box-shadow: 0 0 5px rgba(56, 142, 60, 0.5); /* Ombre verte subtile */
 }
