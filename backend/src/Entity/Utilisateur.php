@@ -24,8 +24,12 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 100)]
     private $password;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: 'integer')]
     private $roles = [];
+
+    #[ORM\ManyToOne(targetEntity: Commission::class)]
+    #[ORM\JoinColumn(name: 'id_commission', referencedColumnName: 'id', nullable: true)]
+    private $commission;
 
     // Getters and Setters
 
@@ -84,7 +88,6 @@ class Utilisateur
 
     public function getRoles(): array
     {
-        // Chaque utilisateur a par défaut le rôle ROLE_USER
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
@@ -94,6 +97,18 @@ class Utilisateur
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getCommission(): ?Commission
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?Commission $commission): self
+    {
+        $this->commission = $commission;
 
         return $this;
     }
