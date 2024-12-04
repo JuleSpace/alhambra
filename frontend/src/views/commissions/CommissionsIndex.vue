@@ -19,14 +19,18 @@
         <p>Aucune commission disponible.</p>
       </div>
 
-      <!-- Lien vers la page de création -->
-      <router-link
-        v-if="$route.path === '/commissions'"
-        to="/commissions/create"
-        class="create-button"
-      >
-        Créer une nouvelle Commission
-      </router-link>
+      <!-- Boutons pour accéder à la page de gestion et de création -->
+      <div v-if="$route.path === '/commissions'" class="button-container">
+        <!-- Bouton pour créer une nouvelle commission -->
+        <router-link to="/commissions/create" class="button create">
+          Créer une nouvelle Commission
+        </router-link>
+        
+        <!-- Bouton pour gérer les commissions (modifier, supprimer, voir) -->
+        <router-link to="/commissions/edit" class="button manage">
+          Gérer les Commissions
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -111,19 +115,49 @@ export default {
   border-bottom: 1px solid #ddd;
 }
 
-/* Style pour le bouton de création */
-.create-button {
-  display: inline-block;
+/* Conteneur des boutons */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacement entre les boutons */
   margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #075e54; /* Couleur verte de WhatsApp */
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 400px;
+  align-items: center;
 }
 
-.create-button:hover {
-  background-color: #dcf8c6; /* Couleur verte claire */
+/* Style pour les boutons */
+.button {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* Styles spécifiques pour chaque bouton */
+.create {
+  background-color: #075e54; /* Vert foncé */
+  color: white;
+}
+
+.create:hover {
+  background-color: #dcf8c6; /* Vert clair */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.manage {
+  background-color: #25d366; /* Vert clair */
+  color: white;
+}
+
+.manage:hover {
+  background-color: #128c7e; /* Vert plus foncé */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 </style>

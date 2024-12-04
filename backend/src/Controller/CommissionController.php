@@ -40,10 +40,15 @@ class CommissionController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
+        // Validation des données
+        if (empty($data['name']) || empty($data['description'])) {
+            return $this->json(['message' => 'Name and description are required'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $commission = new Commission();
         $commission->setName($data['name']);
         $commission->setDescription($data['description']);
-        // Ajoutez les setters nécessaires
+        // Ajoutez d'autres setters si nécessaire
 
         $this->entityManager->persist($commission);
         $this->entityManager->flush();
@@ -51,6 +56,8 @@ class CommissionController extends AbstractController
         return $this->json([
             'message' => 'Commission created successfully',
             'id' => $commission->getId(),
+            'name' => $commission->getName(),
+            'description' => $commission->getDescription(),
         ], JsonResponse::HTTP_CREATED);
     }
 
@@ -84,9 +91,13 @@ class CommissionController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
+        // Vérification des données
+        if (empty($data['name']) && empty($data['description'])) {
+            return $this->json(['message' => 'At least one field (name or description) must be provided'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $commission->setName($data['name'] ?? $commission->getName());
         $commission->setDescription($data['description'] ?? $commission->getDescription());
-        // Ajoutez les setters nécessaires
 
         $this->entityManager->flush();
 
@@ -108,4 +119,3 @@ class CommissionController extends AbstractController
         return $this->json(['message' => 'Commission deleted successfully']);
     }
 }
-
