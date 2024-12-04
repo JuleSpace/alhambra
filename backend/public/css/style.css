@@ -267,6 +267,24 @@ table form button.delete-btn:hover {
     background-color: #e57373; /* Couleur plus claire au survol */
 }
 
+table form button.delete-user {
+    background-color: #f44336; /* Rouge pour le bouton delete */
+    color: white;
+    font-size: 1em;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+/* Changement de couleur au survol du bouton "Delete" */
+table form button.delete-user:hover {
+    background-color: #e57373; /* Couleur plus claire au survol */
+}
+
+
 /* Style for the "No commissions found" message */
 table tbody td {
     text-align: center;
@@ -329,7 +347,6 @@ form input[type="text"]:focus, form textarea:focus {
 }
 .back-to-main-button {
     position: absolute;
-    top: calc(90px + 2.5em);  /* Décalage de 30px plus la hauteur du titre h1 */
     right: 20px;  /* Décalage de 20px du côté gauche */
     background-color: #388E3C;
     color: white;
@@ -367,6 +384,7 @@ form input[type="text"]:focus, form textarea:focus {
     display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
     text-align: center; /* Centrer le texte dans le bouton */
     
+    
 }
 
 .btn-secondary {
@@ -387,6 +405,25 @@ form input[type="text"]:focus, form textarea:focus {
 
 .btn-secondary:hover {
     background-color: #66BB6A;
+}
+
+.btn-trois {
+    width: 100px; /* Largeur fixe pour les boutons */
+    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
+    text-align: center; /* Centrer le texte dans le bouton */
+    background-color: #d6201a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    
+}
+
+.btn-trois:hover {
+    background-color: #f30e07;
 }
 
 ul li form {
@@ -425,6 +462,7 @@ ul li form button.btn-success {
 ul li form button.btn-success:hover {
     background-color: #229954; /* Vert plus sombre au survol */
 }
+
 
 /* Style pour les formulaires */
 form {
@@ -465,4 +503,17 @@ form textarea:focus {
     border-color: #388E3C; /* Bordure verte foncé au focus */
     outline: none; /* Pas de contour supplémentaire */
     box-shadow: 0 0 5px rgba(56, 142, 60, 0.5); /* Ombre verte subtile */
+}
+form input[type="text"],
+form input[type="password"],
+form textarea {
+    width: 75%; /* Remplir toute la largeur */
+    padding: 10px 15px; /* Espacement interne */
+    margin-bottom: 20px; /* Espacement entre les champs */
+    border: 1px solid #ccc; /* Bordure grise douce */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1em; /* Taille de police */
+    color: #333; /* Couleur du texte */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre interne */
+    transition: border-color 0.3s ease; /* Animation douce pour le focus */
 }
