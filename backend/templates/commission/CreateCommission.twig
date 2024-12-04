@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Commissions{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
+{% extends 'base.html.twig' %}
 {% block body %}
     <h1>Create Commission</h1>
-
-    <!-- Bouton pour main menu -->
-    <div>
-        <a href="{{ path('home') }}">
-            <button>Back to Main Menu</button>
-        </a>
-    </div>
 
     <!-- Bouton pour revenir à la liste des commissions -->
     <div>
@@ -38,5 +23,3 @@
         <button type="submit" class="create-commission-btn">Create Commission</button>
     </form>
 {% endblock %}
-</body>
-</html>

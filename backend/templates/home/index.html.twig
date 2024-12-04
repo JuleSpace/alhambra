@@ -16,6 +16,7 @@
         <li><a href="{{ path('chat_index') }}">Accès au chat</a></li>
     </ul>
     <a href="{{ path('_logout_main') }}">Déconnexion</a>
+
 {% else %}
     <a href="{{ path('login') }}">Se connecter</a>
     <p>Pas encore de compte ? <a href="{{ path('register') }}">S'inscrire</a></p>
