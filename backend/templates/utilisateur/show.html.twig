@@ -1,21 +1,34 @@
-{# templates/utilisateur/edit.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Liste des Utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Edit User: {{ utilisateur.nom }} {{ utilisateur.prenom }}</h1>
+    <h1>Liste des Utilisateurs</h1>
 
-    <form action="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" method="post">
-        <!-- Champ pour modifier le nom -->
-        <div>
-            <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" value="{{ utilisateur.nom }}" required />
-        </div>
+    <!-- Tableau des utilisateurs -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr id="user-{{ utilisateur.id }}">
+                    <td>{{ utilisateur.nom }}</td>
+                    <td>{{ utilisateur.prenom }}</td>
+                    <td>{{ utilisateur.email }}</td>
+                    <td>
+                        <!-- Bouton Edit -->
+                        <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}">
+                            <button>Edit</button>
+                        </a>
 
                         <!-- Bouton Delete -->
-                        <button  data-id="{{ utilisateur.id }}" onclick="deleteUser({{ utilisateur.id }})" class="delete-btn">
+                        <button class="delete-btn" data-id="{{ utilisateur.id }}" onclick="deleteUser({{ utilisateur.id }})">
                             Delete
                         </button>
                     </td>
@@ -28,31 +41,29 @@
         </tbody>
     </table>
 
-        <!-- Champ pour modifier l'email -->
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ utilisateur.email }}" required />
-        </div>
-
-        <!-- Champ pour modifier le mot de passe -->
-        <div>
-            <label for="password">Password (leave empty to keep the current one):</label>
-            <input type="password" id="password" name="password" />
-        </div>
-
-        <!-- Champ pour modifier le rôle -->
-        <div>
-            <label for="role">Role:</label>
-            <select id="role" name="role" required>
-                <option value="1" {% if utilisateur.role == 1 %}selected{% endif %}>User</option>
-                <option value="2" {% if utilisateur.role == 2 %}selected{% endif %}>Admin</option>
-            </select>
-        </div>
-
-        <button type="submit">Update User</button>
-    </form>
-
-    <a href="{{ path('utilisateur_index') }}">
-        <button>Back to User List</button>
-    </a>
+    <script>
+        function deleteUser(userId) {
+            if (confirm("Are you sure you want to delete this user?")) {
+                fetch('/utilisateur/' + userId + '/delete', {
+                    method: 'DELETE', // Utilisation de la méthode DELETE
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Suppression de la ligne dans le tableau après confirmation
+                        document.getElementById('user-' + userId).remove();
+                    } else {
+                        alert('Error deleting user');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the user');
+                });
+            }
+        }
+    </script>
 {% endblock %}
