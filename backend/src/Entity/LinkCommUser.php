@@ -1,44 +1,33 @@
 <?php
 
-// src/Entity/Privilege.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipationRepository")
+ */
 #[ORM\Entity]
-class Privilege
+class LinkCommUser
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $type;
-
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Utilisateur')]
+    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id')]
     private $utilisateur;
 
-    #[ORM\ManyToOne(targetEntity: Commission::class)]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Commission')]
+    #[ORM\JoinColumn(name: 'id_commission', referencedColumnName: 'id')]
     private $commission;
 
-    // Getters and Setters
+    // Getters et Setters pour chaque propriété
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getUtilisateur(): ?Utilisateur
@@ -46,10 +35,9 @@ class Privilege
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setUtilisateur(Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
-
         return $this;
     }
 
@@ -58,13 +46,9 @@ class Privilege
         return $this->commission;
     }
 
-    public function setCommission(?Commission $commission): self
+    public function setCommission(Commission $commission): self
     {
         $this->commission = $commission;
-
         return $this;
     }
 }
-
-
-?>
