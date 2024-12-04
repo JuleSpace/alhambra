@@ -10,12 +10,10 @@
         {% if is_granted('ROLE_ADMIN') %}
             <li><a href="{{ path('utilisateur_index') }}" class="btn-primary">Gestion des Utilisateurs</a></li>
             <li><a href="{{ path('commission_index') }}" class="btn-primary">Gestion des Commissions</a></li>
-            <li><a href="{{ path('post_index') }}" class="btn-primary">Gestion des Posts</a></li>
-            <li><a href="{{ path('privilege_index') }}" class="btn-primary">Gestion des Privilèges</a></li>
         {% endif %}
         <li><a href="{{ path('chat_index') }}" class="btn-primary">Accès au chat</a></li>
     </ul>
-    <a href="{{ path('_logout_main') }}" class="btn-primary">Déconnexion</a>
+    <a href="{{ path('_logout_main') }}" class="btn-primary logout-button">Déconnexion</a> <!-- Appliquer la classe ici -->
 {% else %}
     <div class="centered-button">
         <a href="{{ path('login') }}" class="btn-primary">Se connecter</a>

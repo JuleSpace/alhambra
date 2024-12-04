@@ -63,23 +63,29 @@ class CommissionController extends AbstractController
     {
         $commission = $this->entityManager->getRepository(Commission::class)->find($id);
 
+        // Si la commission n'existe pas, renvoyer une erreur
         if (!$commission) {
             throw $this->createNotFoundException('No commission found for id ' . $id);
         }
 
+        // Si le formulaire est soumis, mettre à jour la commission
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
-            
-            $commission->setNom($data['name']);  // Utilisez "setNom" ici
+
+            // Mettre à jour le nom et la description de la commission
+            $commission->setNom($data['name']);
             $commission->setDescription($data['description']);
-            
+
+            // Sauvegarder les modifications dans la base de données
             $this->entityManager->flush();
-            
+
+            // Rediriger vers la liste des commissions
             return $this->redirectToRoute('commission_index');
         }
 
+        // Renvoyer la vue avec les données de la commission
         return $this->render('commission/editCommission.twig', [
-            'commission' => $commission,
+            'commission' => $commission
         ]);
     }
 
@@ -89,13 +95,16 @@ class CommissionController extends AbstractController
     {
         $commission = $this->entityManager->getRepository(Commission::class)->find($id);
 
+        // Si la commission n'existe pas, renvoyer une erreur
         if (!$commission) {
             throw $this->createNotFoundException('No commission found for id ' . $id);
         }
 
+        // Supprimer la commission
         $this->entityManager->remove($commission);
         $this->entityManager->flush();
 
+        // Rediriger vers la liste des commissions
         return $this->redirectToRoute('commission_index');
     }
 }
