@@ -14,7 +14,7 @@
         {% endif %}
         <li><a href="{{ path('chat_index') }}">Accès au chat</a></li>
     </ul>
-    <a href="{{ path('_logout_main') }}">Déconnexion</a>
+    <a href="{{ path('_logout_main') }}" class="btn-primary logout-button">Déconnexion</a>
 
 {% else %}
     <a href="{{ path('login') }}">Se connecter</a>
