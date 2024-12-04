@@ -7,7 +7,7 @@
     {% for commission in commissions %}
         <li>
             <!-- Utilisation de 'commission' plutôt que 'commissionId' -->
-            <a href="{{ path('chat_show', {'commission': commission.id}) }}">
+            <a href="{{ path('chat_show', {'commissionId': commission.id}) }}">
                 Accéder au chat de la commission {{ commission.nom }}
             </a>
         </li>

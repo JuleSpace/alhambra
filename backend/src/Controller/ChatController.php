@@ -13,19 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ChatController extends AbstractController
 {
-    // Route pour afficher l'index des commissions (affiche uniquement les commissions liées à l'utilisateur)
+    // Route pour afficher l'index des commissions (affiche toutes les commissions)
     #[Route('/chat/index', name: 'chat_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Récupérer les commissions auxquelles l'utilisateur est lié via la table link_comm_user
-        $commissions = $entityManager->getRepository(Commission::class)->createQueryBuilder('c')
-            ->innerJoin('c.users', 'u') // Jointure avec les utilisateurs
-            ->where('u.id = :userId') // Condition de filtrage pour l'utilisateur
-            ->setParameter('userId', $user->getId())
-            ->getQuery()
-            ->getResult();
+        // Récupérer toutes les commissions auxquelles l'utilisateur est lié (maintenant toutes les commissions)
+        $commissions = $entityManager->getRepository(Commission::class)->findAll();
 
         return $this->render('chat/index.html.twig', [
             'commissions' => $commissions,
@@ -33,9 +29,10 @@ class ChatController extends AbstractController
     }
 
     // Route pour afficher le chat d'une commission spécifique
-    #[Route('/chat/{commission}/chat', name: 'chat_show')]
+    #[Route('/chat/{commissionId}/chat', name: 'chat_show')]
     public function show(int $commissionId, EntityManagerInterface $entityManager): Response
     {
+        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
         // Récupérer la commission par son ID
@@ -43,14 +40,6 @@ class ChatController extends AbstractController
 
         if (!$commission) {
             throw $this->createNotFoundException('Commission non trouvée.');
-        }
-
-        // Vérification si l'utilisateur est bien lié à cette commission
-        $userIsLinked = in_array($user, $commission->getUsers()->toArray(), true);
-
-        if (!$userIsLinked) {
-            // Si l'utilisateur n'est pas lié à la commission, renvoyer une erreur
-            throw $this->createNotFoundException('Vous n\'êtes pas autorisé à accéder à ce chat.');
         }
 
         // Récupérer les messages associés à cette commission

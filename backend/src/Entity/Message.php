@@ -92,4 +92,8 @@ class Message
 
         return $this;
     }
+    public function getSenderFullName(): string
+    {
+        return $this->sender->getNom() . ' ' . $this->sender->getPrenom();
+    }
 }

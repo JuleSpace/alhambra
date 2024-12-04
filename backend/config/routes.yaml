@@ -45,7 +45,3 @@ chat_message_create:
     path: /api/chat/messages
     controller: App\Controller\ChatController::createMessage
     methods: ['POST']
-
-chat_show:
-    path: /chat/{commission}
-    controller: App\Controller\ChatController::index
