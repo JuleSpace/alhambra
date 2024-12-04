@@ -38,6 +38,23 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
+        /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    // Getter pour `username`
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    // Setter pour `username`
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
 
     public function getNom(): ?string
     {

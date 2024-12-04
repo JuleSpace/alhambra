@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Commission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,105 +17,85 @@ class CommissionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/api/commissions', name: 'commission_index', methods: ['GET'])]
-    public function index(): JsonResponse
+    // Route pour afficher la page d'accueil avec les boutons
+    #[Route('/home', name: 'home')]
+    public function home()
+    {
+        return $this->render('index.html.twig');  // Redirige vers le menu principal
+    }
+
+    // Route pour afficher toutes les commissions
+    #[Route('/commissions', name: 'commission_index')]
+    public function index()
     {
         $commissions = $this->entityManager->getRepository(Commission::class)->findAll();
-        echo $commissions;
-
-        $data = array_map(function ($commission) {
-            return [
-                'id' => $commission->getId(),
-                'name' => $commission->getName(),
-                'description' => $commission->getDescription(),
-                
-                // Ajoutez les champs nécessaires
-            ];
-        }, $commissions);
-        return $this->json($data);
+        return $this->render('commission/showCommission.twig', [
+            'commissions' => $commissions,
+        ]);
     }
 
-    #[Route('/api/commissions', name: 'commission_create', methods: ['POST'])]
-    public function create(Request $request): JsonResponse
+    // Route pour afficher le formulaire de création d'une commission
+    #[Route('/commission/create', name: 'commission_create')]
+    public function create(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+            
+            $commission = new Commission();
+            $commission->setNom($data['name']);  // Utilisez "setNom" ici
+            $commission->setDescription($data['description']);
 
-        // Validation des données
-        if (empty($data['name']) || empty($data['description'])) {
-            return $this->json(['message' => 'Name and description are required'], JsonResponse::HTTP_BAD_REQUEST);
+            // Initialisation de la date de création à la date actuelle
+            $commission->setDateCreation(new \DateTime());  // Date de création par défaut
+
+            $this->entityManager->persist($commission);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('commission_index');
         }
 
-        $commission = new Commission();
-        $commission->setNom($data['name']);
-        $commission->setDescription($data['description']);
-        // Ajoutez d'autres setters si nécessaire
-
-        $this->entityManager->persist($commission);
-        $this->entityManager->flush();
-
-        return $this->json([
-            'message' => 'Commission created successfully',
-            'id' => $commission->getId(),
-            'name' => $commission->getName(),
-            'description' => $commission->getDescription(),
-        ], JsonResponse::HTTP_CREATED);
+        return $this->render('commission/createCommission.twig');
     }
 
-    #[Route('/api/commissions/{id}', name: 'commission_show', methods: ['GET'])]
-    public function show(int $id): JsonResponse
+    // Route pour éditer une commission
+    #[Route('/commission/{id}/edit', name: 'commission_edit')]
+    public function edit(int $id, Request $request)
     {
         $commission = $this->entityManager->getRepository(Commission::class)->find($id);
 
         if (!$commission) {
-            return $this->json(['message' => 'Commission not found'], JsonResponse::HTTP_NOT_FOUND);
+            throw $this->createNotFoundException('No commission found for id ' . $id);
         }
 
-        $data = [
-            'id' => $commission->getId(),
-            'name' => $commission->getName(),
-            'description' => $commission->getDescription(),
-            // Ajoutez les champs nécessaires
-        ];
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+            
+            $commission->setNom($data['name']);  // Utilisez "setNom" ici
+            $commission->setDescription($data['description']);
+            
+            $this->entityManager->flush();
+            
+            return $this->redirectToRoute('commission_index');
+        }
 
-        return $this->json($data);
+        return $this->render('commission/editCommission.twig', [
+            'commission' => $commission,
+        ]);
     }
 
-    #[Route('/api/commissions/{id}', name: 'commission_edit', methods: ['PUT'])]
-    public function edit(Request $request, int $id): JsonResponse
+    // Route pour supprimer une commission
+    #[Route('/commission/{id}/delete', name: 'commission_delete', methods: ['POST'])]
+    public function delete(int $id)
     {
         $commission = $this->entityManager->getRepository(Commission::class)->find($id);
 
         if (!$commission) {
-            return $this->json(['message' => 'Commission not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
-
-        $data = json_decode($request->getContent(), true);
-
-        // Vérification des données
-        if (empty($data['name']) && empty($data['description'])) {
-            return $this->json(['message' => 'At least one field (name or description) must be provided'], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        $commission->setName($data['name'] ?? $commission->getName());
-        $commission->setDescription($data['description'] ?? $commission->getDescription());
-
-        $this->entityManager->flush();
-
-        return $this->json(['message' => 'Commission updated successfully']);
-    }
-
-    #[Route('/api/commissions/{id}', name: 'commission_delete', methods: ['DELETE'])]
-    public function delete(int $id): JsonResponse
-    {
-        $commission = $this->entityManager->getRepository(Commission::class)->find($id);
-
-        if (!$commission) {
-            return $this->json(['message' => 'Commission not found'], JsonResponse::HTTP_NOT_FOUND);
+            throw $this->createNotFoundException('No commission found for id ' . $id);
         }
 
         $this->entityManager->remove($commission);
         $this->entityManager->flush();
 
-        return $this->json(['message' => 'Commission deleted successfully']);
+        return $this->redirectToRoute('commission_index');
     }
 }

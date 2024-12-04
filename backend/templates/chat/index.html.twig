@@ -1,54 +1,83 @@
-{# templates/chat/index.html.twig #}
-{% extends 'base.html.twig' %}
-
-{% block title %}Chat{% endblock %}
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Accueil{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
 {% block body %}
-<h1>Chat</h1>
+<div class="container mt-5">
+    <h1 class="text-center">Chat - Commission {{ commission.name|default('Globale') }}</h1>
 
-<div id="chat-container">
-    <div id="messages">
-        {% for message in messages %}
-            <div class="message">
-                <strong>{{ message.sender.nom }} {{ message.sender.prenom }}:</strong>
-                <p>{{ message.content }}</p>
-                <span class="timestamp">{{ message.timestamp|date('H:i') }}</span>
-            </div>
-        {% endfor %}
+    <div class="card my-4">
+        <div class="card-header">
+            Messages
+        </div>
+        <div class="card-body" id="message-list">
+            {% if messages is empty %}
+                <p class="text-muted">Aucun message pour le moment.</p>
+            {% else %}
+                {% for message in messages %}
+                    <div class="message mb-3">
+                        <strong>{{ message.sender.username }}</strong> <span class="text-muted">({{ message.createdAt|date('Y-m-d H:i') }})</span>
+                        <p>{{ message.content }}</p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 
-    <form id="chat-form" action="{{ path('chat_send') }}" method="post">
-        <input type="text" name="content" id="content" required>
-        <button type="submit">Envoyer</button>
-    </form>
+    <div class="card">
+        <div class="card-header">
+            Envoyer un message
+        </div>
+        <div class="card-body">
+            <form id="message-form">
+                <div class="mb-3">
+                    <label for="message-content" class="form-label">Message</label>
+                    <textarea class="form-control" id="message-content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
-    const form = document.getElementById('chat-form');
-    const messagesDiv = document.getElementById('messages');
+    document.getElementById('message-form').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+        const content = document.getElementById('message-content').value;
 
-        const formData = new FormData(form);
-        const response = await fetch(form.action, {
+        fetch('/api/chat/messages', {
             method: 'POST',
-            body: formData,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest'
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: content,
+                commission: {{ commission.id|json_encode|raw }}
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de l\'envoi du message');
             }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.status || 'Message envoyé avec succès');
+            location.reload(); // Recharge la page pour afficher le nouveau message
+        })
+        .catch(error => {
+            console.error('Erreur :', error);
+            alert('Impossible d\'envoyer le message.');
         });
-
-        if (response.ok) {
-            const newMessage = await response.json();
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.innerHTML = `<strong>${newMessage.sender.nom} ${newMessage.sender.prenom}:</strong>
-                                    <p>${newMessage.content}</p>
-                                    <span class="timestamp">${newMessage.timestamp}</span>`;
-            messagesDiv.appendChild(messageDiv);
-            form.reset();
-        }
     });
 </script>
 {% endblock %}
+</body>
+</html>

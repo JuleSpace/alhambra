@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Commissions{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+{% block body %}
+    <h1>Commissions</h1>
+
+    <!-- Bouton pour main menu -->
+    <div>
+        <a href="{{ path('home') }}">
+            <button>Back to Main Menu</button>
+        </a>
+    </div>
+
+    <!-- Bouton pour créer une commission -->
+    <div>
+        <a href="{{ path('commission_create') }}">
+            <button>Create a Commission</button>
+        </a>
+    </div>
+
+    <!-- Tableau des commissions -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commission in commissions %}
+                <tr>
+                    <td>{{ commission.nom }}</td>
+                    <td>{{ commission.description }}</td>
+                    <td>
+                        <a href="{{ path('commission_edit', { 'id': commission.id }) }}">
+                            <button>Edit</button>
+                        </a>
+                        <form action="{{ path('commission_delete', { 'id': commission.id }) }}" method="post" style="display:inline;">
+                            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this commission?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No commissions found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>

@@ -3,8 +3,11 @@
 // src/Entity/Message.php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MessageRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Utilisateur;
+use App\Entity\Commission;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -15,15 +18,27 @@ class Message
     private $id;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: 'Le contenu du message est obligatoire.')]
     private $content;
 
     #[ORM\Column(type: 'datetime')]
-    private $timestamp;
+    private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $sender;
 
-    // Getters and Setters
+    #[ORM\ManyToOne(targetEntity: Commission::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private $commission;
+
+    public function __construct()
+    {
+        // Initialisation de la date de création
+        $this->createdAt = new \DateTime();
+    }
+
+    // Getters et Setters
 
     public function getId(): ?int
     {
@@ -42,14 +57,14 @@ class Message
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->timestamp;
+        return $this->createdAt;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->timestamp = $timestamp;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -65,7 +80,16 @@ class Message
 
         return $this;
     }
+
+    public function getCommission(): ?Commission
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?Commission $commission): self
+    {
+        $this->commission = $commission;
+
+        return $this;
+    }
 }
-
-
-?>
