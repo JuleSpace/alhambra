@@ -1,9 +1,13 @@
 <?php
 
+// src/Controller/ChatController.php
 namespace App\Controller;
 
-use App\Entity\Commission;
 use App\Entity\Message;
+use App\Entity\Commission;
+use App\Entity\Utilisateur;
+use App\Repository\MessageRepository;
+use App\Repository\CommissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,48 +52,91 @@ class ChatController extends AbstractController
             ['createdAt' => 'DESC']
         );
 
-        return $this->render('chat/show.html.twig', [
+        // Vérifiez si les messages sont récupérés correctement
+        if (empty($messages)) {
+            return $this->render('chat/index.html.twig', [
+                'commission' => $commission,
+                'utilisateur' => $utilisateur,
+                'messages' => [],
+                'error' => 'Aucun message trouvé pour cette commission et utilisateur.'
+            ]);
+        }
+
+        // Passer la commission, l'utilisateur et les messages à la vue Twig
+        return $this->render('chat/index.html.twig', [
             'commission' => $commission,
-            'user' => $user,
-            'messages' => $messages,
+            'utilisateur' => $utilisateur,
+            'messages' => $messages
         ]);
     }
 
-    // Route pour envoyer un message via l'API
+
+
+    #[Route('/api/chat/messages', name: 'chat_messages', methods: ['GET'])]
+    public function getMessages(Request $request, MessageRepository $messageRepository): JsonResponse
+    {
+        $commissionId = $request->query->get('commission');
+        
+        // Récupérer les messages selon la commission ou tous les messages si commission est absente
+        $messages = $commissionId 
+            ? $messageRepository->findBy(['commission' => $commissionId], ['createdAt' => 'ASC']) 
+            : $messageRepository->findBy([], ['createdAt' => 'ASC']);
+        
+        // Préparer les données des messages pour la réponse JSON
+        $data = array_map(function($msg) {
+            // Vérifiez si l'expéditeur existe
+            $senderName = $msg->getSender() ? $msg->getSender()->getUsername() : 'Inconnu'; // Valeur par défaut si sender est null
+            
+            return [
+                'id' => $msg->getId(),
+                'content' => $msg->getContent(),
+                'sender' => $senderName,  // Assurez-vous que sender est correctement défini
+                'createdAt' => $msg->getCreatedAt()->format('Y-m-d H:i:s'),
+                'commission' => $msg->getCommission() ? $msg->getCommission()->getName() : null,
+            ];
+        }, $messages);
+        
+        // Retourner la réponse JSON avec les messages
+        return $this->json($data); 
+    }
+    
+
     #[Route('/api/chat/messages', name: 'chat_message_create', methods: ['POST'])]
-    public function createMessage(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function createMessage(Request $request, EntityManagerInterface $entityManager, CommissionRepository $commissionRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-
+    
         // Validation des données
         if (empty($data['content']) || empty($data['commission'])) {
             return new JsonResponse(['error' => 'Invalid data'], JsonResponse::HTTP_BAD_REQUEST);
         }
-
+    
         // Vérification de la validité de la commission
-        $commission = $entityManager->getRepository(Commission::class)->find($data['commission']);
+        $commission = $commissionRepository->find($data['commission']);
         if (!$commission) {
             return new JsonResponse(['error' => 'Invalid commission'], JsonResponse::HTTP_BAD_REQUEST);
         }
-
-        // Créer un nouveau message
+    
+        // Création du message
         $message = new Message();
         $message->setContent($data['content']);
-        $message->setSender($this->getUser()); // Utilisateur connecté
+        $message->setSender($this->getUser());  // Utilisation de l'utilisateur connecté
         $message->setCommission($commission);
-
+    
+        // Enregistrement du message en base
         $entityManager->persist($message);
         $entityManager->flush();
-
+    
         return $this->json([
             'status' => 'Message créé avec succès',
             'message' => [
                 'id' => $message->getId(),
                 'content' => $message->getContent(),
-                'sender' => $message->getSender()->getUsername(),
+                'sender' => $message->getSender()->getUsername(), // Assurez-vous d'utiliser `getUsername()`
                 'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
-                'commission' => $message->getCommission()->getNom(),
+                'commission' => $message->getCommission()->getName(),
             ]
         ], JsonResponse::HTTP_CREATED);
     }
+    
 }

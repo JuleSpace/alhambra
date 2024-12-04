@@ -32,7 +32,7 @@ utilisateur_edit:
     controller: App\Controller\UtilisateurController::edit
 
 utilisateur_delete:
-    path: /utilisateur/{id}
+    path: /utilisateur/{id}/delete
     controller: App\Controller\UtilisateurController::delete
     methods: DELETE
 

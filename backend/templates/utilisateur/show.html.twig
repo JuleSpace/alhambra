@@ -1,29 +1,50 @@
+{# templates/utilisateur/edit.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateur{% endblock %}
+{% block title %}Edit User{% endblock %}
 
 {% block body %}
-    <h1>Utilisateur</h1>
+    <h1>Edit User: {{ utilisateur.nom }} {{ utilisateur.prenom }}</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>ID</th>
-                <td>{{ utilisateur.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ utilisateur.nom }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ utilisateur.email }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <form action="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" method="post">
+        <!-- Champ pour modifier le nom -->
+        <div>
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" value="{{ utilisateur.nom }}" required />
+        </div>
 
-    <a href="{{ path('utilisateur_index') }}">Retour à la liste</a>
-    <a href="{{ path('utilisateur_edit', {'id': utilisateur.id}) }}">Éditer</a>
+        <!-- Champ pour modifier le prénom -->
+        <div>
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" value="{{ utilisateur.prenom }}" required />
+        </div>
 
-    {{ include('utilisateur/_delete_form.html.twig') }}
+        <!-- Champ pour modifier l'email -->
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ utilisateur.email }}" required />
+        </div>
+
+        <!-- Champ pour modifier le mot de passe -->
+        <div>
+            <label for="password">Password (leave empty to keep the current one):</label>
+            <input type="password" id="password" name="password" />
+        </div>
+
+        <!-- Champ pour modifier le rôle -->
+        <div>
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="1" {% if utilisateur.role == 1 %}selected{% endif %}>User</option>
+                <option value="2" {% if utilisateur.role == 2 %}selected{% endif %}>Admin</option>
+            </select>
+        </div>
+
+        <button type="submit">Update User</button>
+    </form>
+
+    <a href="{{ path('utilisateur_index') }}">
+        <button>Back to User List</button>
+    </a>
 {% endblock %}
