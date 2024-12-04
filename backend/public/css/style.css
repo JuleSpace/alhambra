@@ -367,4 +367,25 @@ form input[type="text"]:focus, form textarea:focus {
     width: 200px; /* Largeur fixe pour les boutons */
     display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
     text-align: center; /* Centrer le texte dans le bouton */
+    
+}
+
+.btn-secondary {
+    width: 200px; /* Largeur fixe pour les boutons */
+    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
+    text-align: center; /* Centrer le texte dans le bouton */
+    position: absolute;
+    top: calc(30px + 2.5em);  /* Décalage de 30px plus la hauteur du titre h1 (2.5em) */
+    left: 20px; /* Décalage de 20px du côté droit */
+    background-color: #388E3C;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #66BB6A;
 }
