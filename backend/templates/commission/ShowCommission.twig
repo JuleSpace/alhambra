@@ -26,7 +26,7 @@
         <tbody>
             {% for commission in commissions %}
                 <tr>
-                    <td>{{ commission.name }}</td>
+                    <td>{{ commission.nom }}</td>
                     <td>{{ commission.description }}</td>
                     <td>
                         <a href="{{ path('commission_edit', { 'id': commission.id }) }}">
