@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs{% endblock %}
+
+{% block body %}
+<h1>Liste des Utilisateurs de la Commission {{ commission.nom }}</h1>
+
+<ul>
+    {% for utilisateur in utilisateurs %}
+        <li>{{ utilisateur.nom }} {{ utilisateur.prenom }}
+            {# Vérifier si l'utilisateur est déjà inscrit à la commission #}
+            {% set existingLink = commission.users|filter(u => u.id == utilisateur.id)|first %}
+
+            {% if existingLink %}
+                <!-- Si l'utilisateur est déjà inscrit à la commission, afficher le bouton pour le retirer -->
+                <form action="{{ path('commission_users_edit', { 'id': commission.id }) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="utilisateur_id" value="{{ utilisateur.id }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            {% else %}
+                <!-- Si l'utilisateur n'est pas encore dans la commission, afficher le bouton pour l'ajouter -->
+                <form action="{{ path('commission_users_edit', { 'id': commission.id }) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="utilisateur_id" value="{{ utilisateur.id }}">
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

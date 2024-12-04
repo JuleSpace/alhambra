@@ -8,16 +8,16 @@
 {% if app.user %}
     <ul>
         {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('utilisateur_index') }}" class="btn-primary">Gestion des Utilisateurs</a></li>
-            <li><a href="{{ path('commission_index') }}" class="btn-primary">Gestion des Commissions</a></li>
+            <li><a href="{{ path('utilisateur_index') }}">Gestion des Utilisateurs</a></li>
+            <li><a href="{{ path('commission_index') }}">Gestion des Commissions</a></li>
+            <li><a href="{{ path('post_index') }}">Gestion des Posts</a></li>
         {% endif %}
-        <li><a href="{{ path('chat_index') }}" class="btn-primary">Accès au chat</a></li>
+        <li><a href="{{ path('chat_index') }}">Accès au chat</a></li>
     </ul>
-    <a href="{{ path('_logout_main') }}" class="btn-primary logout-button">Déconnexion</a> <!-- Appliquer la classe ici -->
+    <a href="{{ path('_logout_main') }}">Déconnexion</a>
+
 {% else %}
-    <div class="centered-button">
-        <a href="{{ path('login') }}" class="btn-primary">Se connecter</a>
-        <p>Pas encore de compte ? <br></br> <a href="{{ path('register') }}" class="btn-primary">S'inscrire</a></p>
-    </div>
+    <a href="{{ path('login') }}">Se connecter</a>
+    <p>Pas encore de compte ? <a href="{{ path('register') }}">S'inscrire</a></p>
 {% endif %}
 {% endblock %}
