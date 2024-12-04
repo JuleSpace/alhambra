@@ -4,9 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ParticipationRepository")
- */
 #[ORM\Entity]
 class LinkCommUser
 {
@@ -15,13 +12,13 @@ class LinkCommUser
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Utilisateur')]
-    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id')]
-    private $utilisateur;
-
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Commission')]
-    #[ORM\JoinColumn(name: 'id_commission', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Commission::class)]
+    #[ORM\JoinColumn(name: 'commission_id', referencedColumnName: 'id', nullable: false)]
     private $commission;
+
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\JoinColumn(name: 'utilisateur_id', referencedColumnName: 'id', nullable: false)]
+    private $utilisateur;
 
     // Getters et Setters pour chaque propriété
 

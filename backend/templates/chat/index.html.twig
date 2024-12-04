@@ -1,16 +1,35 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
 <div class="container mt-5">
     <h1 class="text-center">Chat - Commission {{ commission.name|default('Globale') }}</h1>
 
-<ul>
-    {% for commission in commissions %}
-        <li>
-            <!-- Utilisation de 'commission' plutôt que 'commissionId' -->
-            <a href="{{ path('chat_show', {'commissionId': commission.id}) }}">
-                Accéder au chat de la commission {{ commission.nom }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for commission in commissions %}
+            <li>
+                <a href="{{ path('chat_show', {'commissionId': commission.id}) }}">
+                    Accéder au chat de la commission {{ commission.nom }}
+                </a>
+
+                <!-- Afficher le nombre de messages non lus pour cette commission -->
+                {% if unreadMessagesCount[commission.id] > 0 %}
+                    <span class="badge badge-warning">
+                        {{ unreadMessagesCount[commission.id] }} messages non lus
+                    </span>
+                {% endif %}
+
+                <!-- Formulaire pour activer/désactiver les notifications -->
+                <form action="{{ path('toggle_notifications', {'commissionId': commission.id}) }}" method="post" style="display:inline;">
+                    <button type="submit">
+                        {% if notificationsStatus[commission.id] %}
+                            Désactiver les notifications
+                        {% else %}
+                            Activer les notifications
+                        {% endif %}
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

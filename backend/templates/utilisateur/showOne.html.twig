@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Details{% endblock %}
+
+{% block body %}
+    <h1>Details for {{ utilisateur.nom }} {{ utilisateur.prenom }}</h1>
+
+    <ul>
+        <li>Email: {{ utilisateur.email }}</li>
+        <li>Role: {{ utilisateur.role == 1 ? 'User' : 'Admin' }}</li>
+        <li>Prenom: {{ utilisateur.prenom }}</li>
+        <li>Nom: {{ utilisateur.nom }}</li>
+    </ul>
+
+{% endblock %}

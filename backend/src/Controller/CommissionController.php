@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Utilisateur;
 use App\Entity\LinkCommUser;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class CommissionController extends AbstractController
 {
@@ -112,49 +114,46 @@ class CommissionController extends AbstractController
 
     // Route pour éditer les utilisateurs d'une commission
     #[Route('/commission/{id}/editUsers', name: 'commission_users_edit')]
-    public function editUsers(int $id, Request $request)
+    public function editUsers(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $commission = $this->entityManager->getRepository(Commission::class)->find($id);
+    // Récupérer la commission par son ID
+    $commission = $entityManager->getRepository(Commission::class)->find($id);
 
-        // Si la commission n'existe pas, renvoyer une erreur
-        if (!$commission) {
-            throw $this->createNotFoundException('No commission found for id ' . $id);
-        }
-
-        // Récupérer tous les utilisateurs pour afficher la liste
-        $utilisateurs = $this->entityManager->getRepository(Utilisateur::class)->findAll();
-
-        // Si le formulaire est soumis pour ajouter ou supprimer un utilisateur
-        if ($request->isMethod('POST')) {
-            $utilisateurId = $request->get('utilisateur_id');
-            $utilisateur = $this->entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
-
-            if ($utilisateur) {
-                // Vérifier si l'utilisateur est déjà inscrit à cette commission
-                $existingLink = $this->entityManager->getRepository(LinkCommUser::class)
-                    ->findOneBy(['utilisateur' => $utilisateur, 'commission' => $commission]);
-
-                if ($existingLink) {
-                    // Si l'utilisateur est déjà inscrit, supprimer la relation
-                    $this->entityManager->remove($existingLink);
-                    $this->entityManager->flush();
-                } else {
-                    // Ajouter l'utilisateur à la commission
-                    $linkCommUser = new LinkCommUser();
-                    $linkCommUser->setUtilisateur($utilisateur);
-                    $linkCommUser->setCommission($commission);
-
-                    $this->entityManager->persist($linkCommUser);
-                    $this->entityManager->flush();
-                }
-            }
-
-            return $this->redirectToRoute('commission_users_edit', ['id' => $id]);
-        }
-
-        return $this->render('commission/editUsers.twig', [
-            'commission' => $commission,
-            'utilisateurs' => $utilisateurs,
-        ]);
+    if (!$commission) {
+        throw $this->createNotFoundException('Commission not found');
     }
+
+    // Récupérer tous les utilisateurs
+    $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+
+    // Si un utilisateur est ajouté ou supprimé
+    if ($request->isMethod('POST')) {
+        $utilisateurId = $request->get('utilisateur_id');
+        $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
+
+        if ($utilisateur) {
+            $existingLink = $entityManager->getRepository(LinkCommUser::class)
+                ->findOneBy(['utilisateur' => $utilisateur, 'commission' => $commission]);
+
+            if ($existingLink) {
+                // Supprimer l'utilisateur de la commission
+                $entityManager->remove($existingLink);
+            } else {
+                // Ajouter l'utilisateur à la commission
+                $linkCommUser = new LinkCommUser();
+                $linkCommUser->setUtilisateur($utilisateur);
+                $linkCommUser->setCommission($commission);
+                $entityManager->persist($linkCommUser);
+            }
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('commission_users_edit', ['id' => $id]);
+    }
+
+    return $this->render('commission/editUsers.twig', [
+        'commission' => $commission,
+        'utilisateurs' => $utilisateurs,
+    ]);
+}
 }
