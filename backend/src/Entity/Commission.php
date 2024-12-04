@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Utilisateur;
 
 #[ORM\Entity]
 class Commission
@@ -15,7 +16,7 @@ class Commission
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $nom;  // Propriété 'nom'
+    private $nom;
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
@@ -25,7 +26,7 @@ class Commission
 
     // Relation ManyToMany avec Utilisateur
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'commissions')]
-    #[ORM\JoinTable(name: 'utilisateur_commission')]  // Table de jointure
+    #[ORM\JoinTable(name: 'link_comm_user')]  // Table de jointure
     private $users;
 
     public function __construct()
@@ -33,7 +34,7 @@ class Commission
         $this->users = new ArrayCollection();  // Initialisation de la collection des utilisateurs
     }
 
-    // Getters and Setters
+    // Getters et Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -72,22 +73,9 @@ class Commission
         return $this;
     }
 
+    // Getter pour la relation
     public function getUsers(): Collection
     {
         return $this->users;
-    }
-
-    public function addUser(Utilisateur $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-        return $this;
-    }
-
-    public function removeUser(Utilisateur $user): self
-    {
-        $this->users->removeElement($user);
-        return $this;
     }
 }
