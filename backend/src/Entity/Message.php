@@ -1,4 +1,5 @@
 <?php
+
 // src/Entity/Message.php
 namespace App\Entity;
 

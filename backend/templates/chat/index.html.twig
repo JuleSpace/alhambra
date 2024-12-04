@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Accueil{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
+{% extends 'base.html.twig' %}
 {% block body %}
 <div class="container mt-5">
     <h1 class="text-center">Chat - Commission {{ commission.name|default('Globale') }}</h1>
@@ -21,7 +13,7 @@
             {% else %}
                 {% for message in messages %}
                     <div class="message mb-3">
-                        <strong>{{ message.sender }}</strong> <span class="text-muted">({{ message.createdAt }})</span>
+                        <strong>{{ message.sender.username }}</strong> <span class="text-muted">({{ message.createdAt|date('Y-m-d H:i') }})</span>
                         <p>{{ message.content }}</p>
                         <hr>
                     </div>
@@ -59,7 +51,7 @@
             },
             body: JSON.stringify({
                 content: content,
-                commission: {{ commission.id|default('null') }}
+                commission: {{ commission.id|json_encode|raw }}
             }),
         })
         .then(response => {
@@ -79,5 +71,3 @@
     });
 </script>
 {% endblock %}
-</body>
-</html>

@@ -1,18 +1,6 @@
-{# templates/commission/createCommission.twig #}
-
 {% extends 'base.html.twig' %}
-
-{% block title %}Create Commission{% endblock %}
-
 {% block body %}
     <h1>Create Commission</h1>
-
-    <!-- Bouton pour main menu -->
-    <div>
-        <a href="{{ path('home') }}">
-            <button>Back to Main Menu</button>
-        </a>
-    </div>
 
     <!-- Bouton pour revenir à la liste des commissions -->
     <div>
@@ -32,6 +20,6 @@
             <textarea id="description" name="description" required></textarea>
         </div>
 
-        <button type="submit">Create Commission</button>
+        <button type="submit" class="create-commission-btn">Create Commission</button>
     </form>
 {% endblock %}
