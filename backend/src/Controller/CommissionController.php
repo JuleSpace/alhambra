@@ -18,10 +18,10 @@ class CommissionController extends AbstractController
     }
 
     // Route pour afficher la page d'accueil avec les boutons
-    #[Route('/commissions/index', name: 'commission_home')]
+    #[Route('/home', name: 'home')]
     public function home()
     {
-        return $this->render('commission/indexCommission.twig');
+        return $this->render('index.html.twig');  // Redirige vers le menu principal
     }
 
     // Route pour afficher toutes les commissions
