@@ -248,9 +248,9 @@ table td a button {
 table td a button:hover {
     background-color: #66BB6A;
 }
-
-table form button {
-    background-color: #f44336; /* Red for delete */
+/* Style du bouton delete dans la table/formulaire */
+table form button.delete-btn {
+    background-color: #f44336; /* Rouge pour le bouton delete */
     color: white;
     font-size: 1em;
     padding: 8px 15px;
@@ -258,10 +258,12 @@ table form button {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    
 }
 
-table form button:hover {
-    background-color: #e57373; /* Light red on hover */
+/* Changement de couleur au survol du bouton "Delete" */
+table form button.delete-btn:hover {
+    background-color: #e57373; /* Couleur plus claire au survol */
 }
 
 /* Style for the "No commissions found" message */
@@ -269,4 +271,60 @@ table tbody td {
     text-align: center;
     font-style: italic;
     color: #777;
+}
+/* Style pour le formulaire */
+form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Limiter la largeur du formulaire */
+    margin: 30px auto; /* Centrer le formulaire */
+}
+
+/* Style des champs de texte (input et textarea) */
+form input[type="text"], form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+/* Changement de couleur de bordure au focus sur les champs */
+form input[type="text"]:focus, form textarea:focus {
+    border-color: #388E3C; /* Bordure verte lors du focus */
+    outline: none; /* Enlever la bordure bleue par défaut */
+}
+
+/* Style pour le bouton "Create Commission" */
+.create-commission-btn {
+    background-color: #4CAF50; /* Un vert agréable */
+    color: white;
+    font-size: 1.1em; /* Taille de police plus petite */
+    padding: 12px 20px; /* Moins de padding pour le rendre moins large */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: auto; /* Pas de largeur 100% */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block; /* Centrer le bouton */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Effet de survol et de clic du bouton */
+.create-commission-btn:hover {
+    background-color: #66BB6A; /* Couleur plus claire au survol */
+    transform: translateY(-2px);
+}
+
+.create-commission-btn:active {
+    background-color: #388E3C;
+    transform: translateY(0);
 }
