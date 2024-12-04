@@ -1,11 +1,16 @@
 <?php
-// src/Entity/Utilisateur.php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
+ */
 #[ORM\Entity]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -21,17 +26,13 @@ class Utilisateur
     #[ORM\Column(type: 'string', length: 100, unique: true)]
     private $email;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $password;
 
-    #[ORM\Column(type: 'integer')]
-    private $roles = [];
+    #[ORM\Column(type: 'integer')] // Stockage en tant qu'entier pour le rôle
+    private $role = 1; // Rôle par défaut ROLE_USER
 
-    #[ORM\ManyToOne(targetEntity: Commission::class)]
-    #[ORM\JoinColumn(name: 'id_commission', referencedColumnName: 'id', nullable: true)]
-    private $commission;
-
-    // Getters and Setters
+    // Getters et Setters
 
     public function getId(): ?int
     {
@@ -46,7 +47,6 @@ class Utilisateur
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -58,7 +58,6 @@ class Utilisateur
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -70,11 +69,10 @@ class Utilisateur
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -82,38 +80,52 @@ class Utilisateur
     public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
+    }
 
+    public function getRole(): int
+    {
+        return $this->role;
+    }
+
+    public function setRole(int $role): self
+    {
+        $this->role = $role;
         return $this;
     }
 
     public function getRoles(): array
     {
-        // Vérifie que $this->roles est bien un tableau
-        $roles = is_array($this->roles) ? $this->roles : [];
-        
-        // Ajoute le rôle par défaut 'ROLE_USER'
-        $roles[] = 'ROLE_USER';
-    
+        // Retourne les rôles sous forme de tableau avec le rôle entier
+        $roles = [];
+        if ($this->role === 1) {
+            $roles[] = 'ROLE_USER';
+        } elseif ($this->role === 2) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
         return array_unique($roles);
     }
-    
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        // Conversion des rôles sous forme d'entier
+        if (in_array('ROLE_ADMIN', $roles)) {
+            $this->role = 2;
+        } else {
+            $this->role = 1;
+        }
 
         return $this;
     }
 
-    public function getCommission(): ?Commission
+    public function getUserIdentifier(): string
     {
-        return $this->commission;
+        return $this->email;
     }
 
-    public function setCommission(?Commission $commission): self
+    public function eraseCredentials(): void
     {
-        $this->commission = $commission;
-
-        return $this;
+        // Effacer les informations sensibles si nécessaire
     }
 }

@@ -2,12 +2,12 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
 
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '16'
+        # IMPORTANT: Configurez ici ou dans la variable d'environnement DATABASE_URL dans .env
+        # server_version: '16'
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -17,18 +17,20 @@ doctrine:
         auto_mapping: true
         mappings:
             App:
-                type: attribute
+                type: attribute  # Ici, nous utilisons les attributs au lieu des annotations
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+        # Configurations pour les environnements de test et production
         controller_resolver:
             auto_mapping: false
 
 when@test:
     doctrine:
         dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
+            # "TEST_TOKEN" est souvent utilisé avec ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:

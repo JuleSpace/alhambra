@@ -2,62 +2,52 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Utilisateur;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class UtilisateurController extends AbstractController
 {
-    private $entityManager;
-    private $passwordHasher;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->passwordHasher = $passwordHasher;
     }
 
     #[Route('/utilisateur', name: 'utilisateur_index')]
     public function index(): Response
     {
-        // Appelle la méthode existante pour obtenir les utilisateurs.
-        $utilisateurs = $this->getUtilisateurs();
+        // Récupère la liste des utilisateurs depuis la base de données
+        $utilisateurs = $this->entityManager->getRepository(Utilisateur::class)->findAll();
 
         return $this->render('utilisateur/index.html.twig', [
             'utilisateurs' => $utilisateurs,
         ]);
     }
-
-    #[Route('/api/utilisateurs', name: 'api_utilisateurs_list', methods: ['GET'])]
-    public function getUtilisateurs(): JsonResponse
-    {
-        $utilisateurs = $this->entityManager->getRepository(Utilisateur::class)->findAll();
-        $data = [];
-
-        foreach ($utilisateurs as $utilisateur) {
-            $data[] = [
-                'id' => $utilisateur->getId(),
-                'nom' => $utilisateur->getNom(),
-                'prenom' => $utilisateur->getPrenom(),
-                'email' => $utilisateur->getEmail(),
-                'roles' => $utilisateur->getRoles(),
-            ];
-        }
-
-        return $this->json($data);
-    }
-
     #[Route('/utilisateur/create', name: 'utilisateur_create')]
     public function create(Request $request): Response
     {
-        // Logique pour créer un utilisateur (par exemple, affichage d'un formulaire)
-        return $this->render('utilisateur/create.html.twig', [
-            'message' => 'Créer un nouvel utilisateur',
-        ]);
-    }
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+    
+            $utilisateur = new Utilisateur();
+            $utilisateur->setNom($data['nom']);
+            $utilisateur->setPrenom($data['prenom']);
+            $utilisateur->setEmail($data['email']);
+            $utilisateur->setPassword(password_hash($data['password'], PASSWORD_BCRYPT)); // Hash du mot de passe
+            $utilisateur->setRole((int)$data['role']);
+    
+            $this->entityManager->persist($utilisateur);
+            $this->entityManager->flush();
+    
+            return $this->redirectToRoute('utilisateur_index');
+        }
+    
+        return $this->render('utilisateur/create.html.twig');
+    }     
 }
