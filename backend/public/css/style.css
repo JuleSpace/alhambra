@@ -328,3 +328,36 @@ form input[type="text"]:focus, form textarea:focus {
     background-color: #388E3C;
     transform: translateY(0);
 }
+/* Spécifique au bouton de connexion */
+.btn-login {
+    background-color: #1E88E5;
+    color: white;
+}
+
+/* Spécifique au bouton d'inscription */
+.btn-register {
+    background-color: #FF9800;
+    color: white;
+}
+/* Centre les éléments enfants horizontalement */
+.centered-button {
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre les éléments verticalement si nécessaire */
+    flex-direction: column; /* Si vous avez plusieurs boutons, les empiler */
+    gap: 20px; /* Espacement entre les boutons */
+    margin-top: 30px; /* Optionnel, espacement du haut */
+}
+/* Appliquer une largeur égale à tous les boutons */
+.btn-primary {
+    width: 200px; /* Largeur fixe pour les boutons */
+    display: inline-block; /* Assure que les boutons sont sur la même ligne ou empilés selon l'espace disponible */
+    text-align: center; /* Centrer le texte dans le bouton */
+}
+
+/* Si vous souhaitez un bouton de largeur responsive, utilisez un pourcentage */
+.btn-primary {
+    width: 50%; /* Largeur relative (50% de la largeur de leur parent) */
+    display: inline-block; /* Les boutons resteront sur la même ligne ou se réorganiseront selon l'espace */
+    text-align: center; /* Centrer le texte dans le bouton */
+}
