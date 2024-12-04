@@ -46,7 +46,7 @@
   </script>
   
   <style scoped>
-  /* Ajoutez ici des styles spécifiques pour ce composant */
+
   table {
     width: 100%;
     border-collapse: collapse;

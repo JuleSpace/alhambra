@@ -5,10 +5,6 @@
         <h1>Liste des Utilisateurs</h1>
       </div>
       
-      <!-- Contenu de la liste des utilisateurs -->
-      <div class="content">
-        <UtilisateurListe />
-      </div>
   
       <!-- Le bouton s'affiche uniquement si la route est exactement "/utilisateur" -->
       <router-link
