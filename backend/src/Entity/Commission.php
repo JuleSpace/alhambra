@@ -13,7 +13,7 @@ class Commission
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $nom;
+    private $nom;  // Propriété 'nom'
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
@@ -28,12 +28,12 @@ class Commission
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNom(): ?string  // Méthode 'getNom()' pour accéder à 'nom'
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(string $nom): self  // 'setNom()' pour définir 'nom'
     {
         $this->nom = $nom;
 
@@ -64,5 +64,3 @@ class Commission
         return $this;
     }
 }
-
-?>

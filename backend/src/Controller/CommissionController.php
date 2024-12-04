@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\Commission;
@@ -19,10 +18,10 @@ class CommissionController extends AbstractController
     }
 
     // Route pour afficher la page d'accueil avec les boutons
-    #[Route('/commissions/index', name: 'commission_home')]
+    #[Route('/home', name: 'home')]
     public function home()
     {
-        return $this->render('commission/indexCommission.twig');
+        return $this->render('index.html.twig');  // Redirige vers le menu principal
     }
 
     // Route pour afficher toutes les commissions
@@ -43,8 +42,11 @@ class CommissionController extends AbstractController
             $data = $request->request->all();
             
             $commission = new Commission();
-            $commission->setName($data['name']);
+            $commission->setNom($data['name']);  // Utilisez "setNom" ici
             $commission->setDescription($data['description']);
+
+            // Initialisation de la date de création à la date actuelle
+            $commission->setDateCreation(new \DateTime());  // Date de création par défaut
 
             $this->entityManager->persist($commission);
             $this->entityManager->flush();
@@ -68,7 +70,7 @@ class CommissionController extends AbstractController
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
             
-            $commission->setName($data['name']);
+            $commission->setNom($data['name']);  // Utilisez "setNom" ici
             $commission->setDescription($data['description']);
             
             $this->entityManager->flush();
