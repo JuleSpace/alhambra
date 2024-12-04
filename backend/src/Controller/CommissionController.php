@@ -46,7 +46,7 @@ class CommissionController extends AbstractController
         }
 
         $commission = new Commission();
-        $commission->setName($data['name']);
+        $commission->setNom($data['name']);
         $commission->setDescription($data['description']);
         // Ajoutez d'autres setters si nécessaire
 
