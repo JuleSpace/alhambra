@@ -88,11 +88,15 @@ class Utilisateur
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        // Vérifie que $this->roles est bien un tableau
+        $roles = is_array($this->roles) ? $this->roles : [];
+        
+        // Ajoute le rôle par défaut 'ROLE_USER'
         $roles[] = 'ROLE_USER';
-
+    
         return array_unique($roles);
     }
+    
 
     public function setRoles(array $roles): self
     {

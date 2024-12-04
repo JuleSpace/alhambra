@@ -22,6 +22,17 @@ class UtilisateurController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
+    #[Route('/utilisateur', name: 'utilisateur_index')]
+    public function index(): Response
+    {
+        // Appelle la méthode existante pour obtenir les utilisateurs.
+        $utilisateurs = $this->getUtilisateurs();
+
+        return $this->render('utilisateur/index.html.twig', [
+            'utilisateurs' => $utilisateurs,
+        ]);
+    }
+
     #[Route('/api/utilisateurs', name: 'api_utilisateurs_list', methods: ['GET'])]
     public function getUtilisateurs(): JsonResponse
     {
@@ -41,33 +52,12 @@ class UtilisateurController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/api/utilisateurs', name: 'api_utilisateurs_create', methods: ['POST'])]
-    public function createUtilisateur(Request $request): JsonResponse
+    #[Route('/utilisateur/create', name: 'utilisateur_create')]
+    public function create(Request $request): Response
     {
-        $data = json_decode($request->getContent(), true);
-
-        // Validation de base des données reçues
-        if (empty($data['nom']) || empty($data['prenom']) || empty($data['email']) || empty($data['password']) || empty($data['roles'])) {
-            return new JsonResponse(['error' => 'Invalid data'], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        // Création d'un nouvel utilisateur
-        $utilisateur = new Utilisateur();
-        $utilisateur->setNom($data['nom']);
-        $utilisateur->setPrenom($data['prenom']);
-        $utilisateur->setEmail($data['email']);
-        
-        // Hachage du mot de passe
-        $hashedPassword = $this->passwordHasher->hashPassword($utilisateur, $data['password']);
-        $utilisateur->setPassword($hashedPassword);
-
-        // Définition des rôles
-        $utilisateur->setRoles($data['roles']);
-
-        // Sauvegarde dans la base de données
-        $this->entityManager->persist($utilisateur);
-        $this->entityManager->flush();
-
-        return new JsonResponse(['status' => 'Utilisateur créé avec succès !'], JsonResponse::HTTP_CREATED);
+        // Logique pour créer un utilisateur (par exemple, affichage d'un formulaire)
+        return $this->render('utilisateur/create.html.twig', [
+            'message' => 'Créer un nouvel utilisateur',
+        ]);
     }
 }
