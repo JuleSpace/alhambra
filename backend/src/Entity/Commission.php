@@ -28,7 +28,7 @@ class Commission
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
         return $this->nom;
     }
