@@ -425,3 +425,44 @@ ul li form button.btn-success {
 ul li form button.btn-success:hover {
     background-color: #229954; /* Vert plus sombre au survol */
 }
+
+/* Style pour les formulaires */
+form {
+    background-color: #ffffff; /* Fond blanc pour le formulaire */
+    border-radius: 8px; /* Coins arrondis */
+    max-width: 600px; /* Largeur maximale */
+    margin: 20px auto; /* Centré */
+}
+
+/* Style des labels */
+form label {
+    font-size: 1.1em;
+    color: #388E3C; /* Vert foncé */
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Style des champs de saisie (input et textarea) */
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 75%; /* Remplir toute la largeur */
+    padding: 10px 15px; /* Espacement interne */
+    margin-bottom: 20px; /* Espacement entre les champs */
+    border: 1px solid #ccc; /* Bordure grise douce */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1em; /* Taille de police */
+    color: #333; /* Couleur du texte */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre interne */
+    transition: border-color 0.3s ease; /* Animation douce pour le focus */
+}
+
+/* Effet au focus sur les champs */
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form textarea:focus {
+    border-color: #388E3C; /* Bordure verte foncé au focus */
+    outline: none; /* Pas de contour supplémentaire */
+    box-shadow: 0 0 5px rgba(56, 142, 60, 0.5); /* Ombre verte subtile */
+}
