@@ -1,4 +1,4 @@
-/* Global styles for the chat page */
+/* Global styles for the page */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #A5D6A7, #C8E6C9); /* Dégradé de verts doux */
@@ -7,7 +7,7 @@ body {
     padding: 0;
 }
 
-/* Container for the chat */
+/* Container for the page content */
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -47,7 +47,7 @@ h1 {
     color: #333;
 }
 
-/* Style for message list */
+/* Style for the message list */
 #message-list {
     max-height: 400px;
     overflow-y: scroll;
@@ -124,6 +124,38 @@ h1 {
     background-color: #66BB6A;
 }
 
+/* Style for the bullet points list */
+ul {
+    list-style-type: none; /* Suppression des puces par défaut */
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Centrer la liste */
+}
+
+ul li {
+    background-color: #ffffff;
+    padding: 10px 15px; /* Réduire l'espace de chaque élément */
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 5px solid #388E3C; /* Bordure verte sur le côté */
+    font-size: 1.1em;
+    width: 100%; /* S'assurer que les éléments prennent toute la largeur disponible */
+    max-width: 500px; /* Limiter la largeur maximale des éléments */
+    margin: 10px auto; /* Centrer les éléments de la liste horizontalement */
+}
+
+ul li a {
+    color: #388E3C;
+    text-decoration: none;
+    display: block;
+}
+
+ul li a:hover {
+    background-color: #f1f1f1;
+    color: #66BB6A;
+    padding-left: 10px;
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .container {
@@ -134,5 +166,8 @@ h1 {
     }
     #message-content {
         height: 100px;
+    }
+    ul li {
+        width: 90%; /* Réduire la taille de la liste sur petits écrans */
     }
 }
