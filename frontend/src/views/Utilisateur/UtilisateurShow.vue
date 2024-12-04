@@ -1,12 +1,18 @@
 <template>
     <div>
         <h1>Liste des Utilisateurs</h1>
-        <UtilisateurListe/>
+        <UtilisateursListe/>
     </div>
 
 </template>
 
 <script>
-/* import UtilisateurListe from '@/components/UtilisateurListe.vue';*/
+import UtilisateursListe from '../../components/UtilisateursListe.vue';
 
+export default {
+    name: 'UtilisateurShow',
+    components: {
+        UtilisateursListe,
+    },
+};
 </script>
