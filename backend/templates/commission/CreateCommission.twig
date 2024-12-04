@@ -1,0 +1,30 @@
+{# templates/commission/createCommission.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Commission{% endblock %}
+
+{% block body %}
+    <h1>Create Commission</h1>
+
+    <!-- Bouton pour revenir à la liste des commissions -->
+    <div>
+        <a href="{{ path('commission_index') }}">
+            <button>Back to Commissions List</button>
+        </a>
+    </div>
+
+    <form action="{{ path('commission_create') }}" method="post">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+        </div>
+        
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <button type="submit">Create Commission</button>
+    </form>
+{% endblock %}
