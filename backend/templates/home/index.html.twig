@@ -1,10 +1,14 @@
-{# templates/home/index.html.twig #}
-{% extends 'base.html.twig' %}
-
-{% block title %}Accueil{% endblock %}
-
-{% block body %}
-<h1>Bienvenue sur l'application de gestion de l'association Alhambra</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Accueil{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    {% block body %}
+    <h1>Bienvenue sur l'application de gestion de l'association Alhambra</h1>
 
 <ul>
     <li><a href="{{ path('utilisateur_index') }}">Gestion des Utilisateurs</a></li>
@@ -13,4 +17,6 @@
     <li><a href="{{ path('privilege_index') }}">Gestion des Privilèges</a></li>
     <li><a href="{{ path('chat_index') }}">Accès au chat</a></li>
 </ul>
-{% endblock %}
+    {% endblock %}
+</body>
+</html>
