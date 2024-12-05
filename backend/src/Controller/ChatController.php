@@ -17,49 +17,40 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ChatController extends AbstractController
 {
-        // Route pour afficher l'index des commissions (affiche toutes les commissions)
-        #[Route('/chat/index', name: 'chat_index')]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
+    #[Route('/chat/index', name: 'chat_index')]
+public function index(EntityManagerInterface $entityManager): Response
+{
+    // Récupérer l'utilisateur connecté
+    $user = $this->getUser();
 
-        // Récupérer toutes les commissions auxquelles l'utilisateur est lié
-        $commissions = $entityManager->getRepository(Commission::class)->findAll();
+    // Récupérer toutes les commissions auxquelles l'utilisateur est lié
+    $commissions = $entityManager->getRepository(Commission::class)->findAll();
 
-        // Initialiser le tableau pour stocker le nombre de messages non lus par commission
-        $unreadMessagesCount = [];
-        $notificationsStatus = [];
+    // Initialiser les données nécessaires pour les notifications
+    $unreadMessagesCount = [];
+    $notificationsStatus = [];
 
-        // Vérifier les notifications de l'utilisateur pour chaque commission
-        foreach ($commissions as $commission) {
-            // Récupérer les notifications pour l'utilisateur et la commission
-            $notification = $entityManager->getRepository(Notification::class)->findOneBy([
-                'utilisateur' => $user,
-                'commission' => $commission
-            ]);
-
-            // Vérifier si les notifications sont activées pour cette commission
-            if ($notification && $notification->getNotificationsEnabled()) {
-                // Comparer la date de création des messages avec la date de la dernière vérification des notifications
-                $dateLastChecked = $notification->getDateLastChecked() ?: new \DateTime();
-                $unreadMessagesCount[$commission->getId()] = $entityManager->getRepository(Message::class)->count([
-                    'commission' => $commission,
-                    'createdAt' => ['gt' => $dateLastChecked->format('Y-m-d H:i:s')] // Formatage de la date ici
-                ]);
-                $notificationsStatus[$commission->getId()] = true; // Notifications activées
-            } else {
-                $unreadMessagesCount[$commission->getId()] = 0; // Pas de messages non lus si notifications désactivées
-                $notificationsStatus[$commission->getId()] = false; // Notifications désactivées
-            }
-        }
-
-        return $this->render('chat/index.html.twig', [
-            'commissions' => $commissions,
-            'unreadMessagesCount' => $unreadMessagesCount, // Passer le nombre de messages non lus à la vue
-            'notificationsStatus' => $notificationsStatus, // Passer le statut des notifications à la vue
+    foreach ($commissions as $commission) {
+        // Récupérer les notifications pour l'utilisateur et la commission
+        $notification = $entityManager->getRepository(Notification::class)->findOneBy([
+            'utilisateur' => $user,
+            'commission' => $commission
         ]);
+
+        // Récupérer le nombre de messages non lus
+        $unreadMessagesCount[$commission->getId()] = $notification ? $notification->getMessagesRates() : 0;
+
+        // Vérifier si les notifications sont activées
+        $notificationsStatus[$commission->getId()] = $notification ? $notification->getNotificationsEnabled() : false;
     }
+
+    return $this->render('chat/index.html.twig', [
+        'commissions' => $commissions,
+        'unreadMessagesCount' => $unreadMessagesCount,
+        'notificationsStatus' => $notificationsStatus,
+    ]);
+}
+
 
     // Route pour afficher le chat d'une commission spécifique
     #[Route('/chat/{commissionId}/chat', name: 'chat_show')]

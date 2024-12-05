@@ -1,26 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-center">Chat - Commission {{ commission.name|default('Globale') }}</h1>
+<div style="margin: 20px;">
+    <h1>Chat des Commissions</h1>
 
-    <ul>
+    <ul style="list-style-type: none; padding: 0;">
         {% for commission in commissions %}
-            <li>
-                <a href="{{ path('chat_show', {'commissionId': commission.id}) }}" class="chat">
-                    Accéder au chat de la commission {{ commission.nom }}
-                </a>
-
-                <!-- Afficher le nombre de messages non lus pour cette commission -->
-                {% if unreadMessagesCount[commission.id] > 0 %}
-                    <span class="badge badge-warning">
-                        {{ unreadMessagesCount[commission.id] }} messages non lus
-                    </span>
-                {% endif %}
-
-                <!-- Formulaire pour activer/désactiver les notifications -->
-                <form action="{{ path('toggle_notifications', {'commissionId': commission.id}) }}" method="post" style="display:inline;">
-                    <button type="submit" class="btn-notif notif">
+            <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <p>
+                    <strong>Commission :</strong> 
+                    <a href="{{ path('chat_show', {'commissionId': commission.id}) }}" style="text-decoration: none; color: #0056b3;">
+                        {{ commission.nom }}
+                    </a>
+                </p>
+                <p>
+                    <strong>Messages non lus :</strong>
+                    {% if unreadMessagesCount[commission.id] > 0 %}
+                        <span style="color: red;">{{ unreadMessagesCount[commission.id] }}</span>
+                    {% else %}
+                        <span style="color: green;">Aucun</span>
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Notifications :</strong> 
+                    {% if notificationsStatus[commission.id] %}
+                        <span style="color: green;">Activées</span>
+                    {% else %}
+                        <span style="color: gray;">Désactivées</span>
+                    {% endif %}
+                </p>
+                <form action="{{ path('toggle_notifications', {'commissionId': commission.id}) }}" method="post" style="margin: 0;">
+                    <button type="submit" style="
+                        background-color: {% if notificationsStatus[commission.id] %}#dc3545{% else %}#28a745{% endif %};
+                        color: white; 
+                        border: none; 
+                        padding: 5px 10px; 
+                        border-radius: 5px; 
+                        cursor: pointer;">
                         {% if notificationsStatus[commission.id] %}
                             Désactiver les notifications
                         {% else %}
@@ -31,5 +47,9 @@
             </li>
         {% endfor %}
     </ul>
+
+    {% if commissions|length == 0 %}
+        <p>Aucune commission disponible.</p>
+    {% endif %}
 </div>
 {% endblock %}
