@@ -98,16 +98,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getRoles(): array
-    {
-        $roles = [];
-        if ($this->role === 1) {
-            $roles[] = 'ROLE_USER';
-        } elseif ($this->role === 2) {
-            $roles[] = 'ROLE_ADMIN';
-        }
-
-        return array_unique($roles);
+{
+    $roles = [];
+    if ($this->role === 1) {
+        $roles[] = 'ROLE_USER';
+    } elseif ($this->role === 2) {
+        $roles[] = 'ROLE_ADMIN';
+    } elseif ($this->role === 3) {
+        $roles[] = 'ROLE_ADMIN_TEMP';
     }
+
+    return array_unique($roles);
+}
+
 
     public function setRoles(array $roles): self
     {
