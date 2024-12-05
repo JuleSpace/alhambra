@@ -10,7 +10,7 @@ CREATE TABLE utilisateur (
     prenom VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role INT NOT NULL DEFAULT 1, -- 1: User, 2: Admin
+    role INT NOT NULL DEFAULT 1 -- 1: User, 2: Admin
 );
 
 -- Table 'commission'
@@ -42,24 +42,19 @@ CREATE TABLE link_comm_user (
 );
 
 -- Table 'notification'
-CREATE TABLE `notification` (
-  `utilisateur_id` int(11) NOT NULL,
-  `commission_id` int(11) NOT NULL,
-  `notifications_enabled` tinyint(1) NOT NULL DEFAULT 1,
-  `messages_rates` int(11) NOT NULL DEFAULT 0,
-  `date_last_checked` datetime NOT NULL DEFAULT current_timestamp()
+CREATE TABLE notification (
+    utilisateur_id INT NOT NULL,
+    commission_id INT NOT NULL,
+    notifications_enabled TINYINT(1) NOT NULL DEFAULT 1,
+    messages_rates INT NOT NULL DEFAULT 0,
+    date_last_checked DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (utilisateur_id, commission_id),
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (commission_id) REFERENCES commission(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
--- Index et contraintes (si nécessaire pour améliorer les performances ou l'intégrité des données)
+-- Index et contraintes supplémentaires pour améliorer les performances
 CREATE INDEX idx_utilisateur_email ON utilisateur(email);
 CREATE INDEX idx_commission_nom ON commission(nom);
-ALTER TABLE `notification` ADD `messages_rates` INT NOT NULL DEFAULT '0' AFTER `notifications_enabled`;
-ALTER TABLE `notification`
-  ADD PRIMARY KEY (`utilisateur_id`,`commission_id`),
-  ADD KEY `commission_id` (`commission_id`);
-ALTER TABLE `notification`
-  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`commission_id`) REFERENCES `commission` (`id`) ON DELETE CASCADE;
-COMMIT;
 
+COMMIT;
