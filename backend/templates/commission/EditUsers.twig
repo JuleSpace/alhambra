@@ -17,13 +17,13 @@
                     <!-- Si l'utilisateur est déjà dans la commission, afficher le bouton "Supprimer" -->
                     <form action="{{ path('commission_users_edit', { 'id': commission.id }) }}" method="post" style="display:inline;">
                         <input type="hidden" name="utilisateur_id" value="{{ utilisateur.id }}">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="btn btn-danger all">Supprimer</button>
                     </form>
                 {% else %}
                     <!-- Si l'utilisateur n'est pas dans la commission, afficher le bouton "Ajouter" -->
                     <form action="{{ path('commission_users_edit', { 'id': commission.id }) }}" method="post" style="display:inline;">
                         <input type="hidden" name="utilisateur_id" value="{{ utilisateur.id }}">
-                        <button type="submit" class="btn btn-success">Ajouter</button>
+                        <button type="submit" class="btn btn-success all">Ajouter</button>
                     </form>
                 {% endif %}
             </li>

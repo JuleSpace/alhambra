@@ -20,7 +20,7 @@
 
                 <!-- Formulaire pour activer/désactiver les notifications -->
                 <form action="{{ path('toggle_notifications', {'commissionId': commission.id}) }}" method="post" style="display:inline;">
-                    <button type="submit">
+                    <button type="submit" class="btn-notif notif">
                         {% if notificationsStatus[commission.id] %}
                             Désactiver les notifications
                         {% else %}

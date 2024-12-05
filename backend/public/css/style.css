@@ -432,7 +432,7 @@ ul li form {
     vertical-align: middle; /* Aligner verticalement avec le texte */
 }
 
-ul li form button {
+ul li form button.all {
     padding: 8px 15px;
     font-size: 0.9em;
     border: none;
@@ -516,4 +516,33 @@ form textarea {
     color: #333; /* Couleur du texte */
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre interne */
     transition: border-color 0.3s ease; /* Animation douce pour le focus */
+}
+
+.btn-notif {
+    background-color: #388E3C;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+
+}
+
+/* Changement de couleur au survol du bouton */
+.btn-notif:hover {
+    background-color: #66BB6A;
+}
+
+ul li form button.notif {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+
 }
