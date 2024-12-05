@@ -24,6 +24,10 @@ class Commission
     #[ORM\Column(type: 'datetime')]
     private $dateCreation;
 
+    // Nouvelle propriété pour la date d'expiration
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $expiryDate = null;
+
     // Relation ManyToMany avec Utilisateur
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'commissions')]
     #[ORM\JoinTable(name: 'link_comm_user')]  // Table de jointure
@@ -73,7 +77,19 @@ class Commission
         return $this;
     }
 
-    // Getter pour la relation
+    // Getter et Setter pour expiryDate
+    public function getExpiryDate(): ?\DateTimeInterface
+    {
+        return $this->expiryDate;
+    }
+
+    public function setExpiryDate(?\DateTimeInterface $expiryDate): self
+    {
+        $this->expiryDate = $expiryDate;
+        return $this;
+    }
+
+    // Getter pour la relation ManyToMany avec Utilisateur
     public function getUsers(): Collection
     {
         return $this->users;

@@ -20,6 +20,12 @@
             <textarea id="description" name="description" required></textarea>
         </div>
 
+        <div>
+            <label for="expiry_date">Expiration Date (Optional):</label>
+            <input type="datetime-local" id="expiry_date" name="expiry_date" />
+            <small>Leave empty if the commission should be permanent.</small>
+        </div>
+
         <button type="submit" class="create-commission-btn">Create Commission</button>
     </form>
 {% endblock %}
