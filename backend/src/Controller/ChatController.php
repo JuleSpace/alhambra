@@ -123,7 +123,7 @@ class ChatController extends AbstractController
             'message' => [
                 'id' => $message->getId(),
                 'content' => $message->getContent(),
-                'sender' => $message->getSender()->getUsername(),
+                'sender' => $message->getSender()->getNom(),
                 'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
                 'commission' => $message->getCommission()->getNom(),
             ]
