@@ -32,28 +32,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')] // Stockage en tant qu'entier pour le rôle
     private $role = 1; // Rôle par défaut ROLE_USER
 
-    // Getters et Setters
+    // Champ pour gérer la permission temporaire de créer une commission
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $temporaryPermissionExpiry = null;
 
+    // Getters et Setters
     public function getId(): ?int
     {
         return $this->id;
-    }
-        /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
-
-    // Getter pour `username`
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    // Setter pour `username`
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-        return $this;
     }
 
     public function getNom(): ?string
@@ -113,7 +99,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        // Retourne les rôles sous forme de tableau avec le rôle entier
         $roles = [];
         if ($this->role === 1) {
             $roles[] = 'ROLE_USER';
@@ -126,13 +111,24 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRoles(array $roles): self
     {
-        // Conversion des rôles sous forme d'entier
         if (in_array('ROLE_ADMIN', $roles)) {
             $this->role = 2;
         } else {
             $this->role = 1;
         }
 
+        return $this;
+    }
+
+    // Getter et Setter pour `temporaryPermissionExpiry`
+    public function getTemporaryPermissionExpiry(): ?\DateTime
+    {
+        return $this->temporaryPermissionExpiry;
+    }
+
+    public function setTemporaryPermissionExpiry(?\DateTime $temporaryPermissionExpiry): self
+    {
+        $this->temporaryPermissionExpiry = $temporaryPermissionExpiry;
         return $this;
     }
 

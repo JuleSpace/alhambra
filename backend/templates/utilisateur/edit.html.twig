@@ -1,50 +1,55 @@
-{# templates/utilisateur/edit.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-    <h1>Edit User: {{ utilisateur.nom }} {{ utilisateur.prenom }}</h1>
-
-    <form action="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" method="post">
-        <!-- Champ pour modifier le nom -->
+    <h1>Edit User</h1>
+    
+    <form method="POST" action="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}">
+        <!-- Nom -->
         <div>
             <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" value="{{ utilisateur.nom }}" required />
+            <input type="text" id="nom" name="nom" value="{{ utilisateur.nom }}" />
         </div>
 
-        <!-- Champ pour modifier le prénom -->
+        <!-- Prénom -->
         <div>
             <label for="prenom">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" value="{{ utilisateur.prenom }}" required />
+            <input type="text" id="prenom" name="prenom" value="{{ utilisateur.prenom }}" />
         </div>
 
-        <!-- Champ pour modifier l'email -->
+        <!-- Email -->
         <div>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ utilisateur.email }}" required />
+            <input type="email" id="email" name="email" value="{{ utilisateur.email }}" />
         </div>
 
-        <!-- Champ pour modifier le mot de passe -->
+        <!-- Mot de passe -->
         <div>
-            <label for="password">Password (leave empty to keep the current one):</label>
+            <label for="password">Password:</label>
             <input type="password" id="password" name="password" />
         </div>
+        
+        <!-- Permission temporaire -->
+        <div>
+            <label for="temporary_permission_expiry">Temporary Permission to Create Commission (Optional):</label>
+            <input type="datetime-local" id="temporary_permission_expiry" name="temporary_permission_expiry" 
+                value="{{ utilisateur.temporaryPermissionExpiry ? utilisateur.temporaryPermissionExpiry|date('Y-m-d\TH:i') : '' }}" />
+            <small>Set a date to expire the permission.</small>
+        </div>
 
-        <!-- Champ pour modifier le rôle -->
+        <!-- Rôle -->
         <div>
             <label for="role">Role:</label>
-            <select id="role" name="role" required>
+            <select id="role" name="role">
                 <option value="1" {% if utilisateur.role == 1 %}selected{% endif %}>User</option>
                 <option value="2" {% if utilisateur.role == 2 %}selected{% endif %}>Admin</option>
             </select>
         </div>
-<br></br>
+
         <button type="submit" class="btn-primary">Update User</button>
     </form>
 
-    <a href="{{ path('utilisateur_index') }}">
-        <button>Back to User List</button>
-    </a>
+    <br>
+    <a href="{{ path('utilisateur_show_one', { 'id': utilisateur.id }) }}">Back to user details</a>
 {% endblock %}

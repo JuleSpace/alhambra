@@ -31,6 +31,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+    // Route pour afficher un utilisateur spécifique
     #[Route('/utilisateur/{id}', name: 'utilisateur_show_one')]
     public function show(int $id): Response
     {
@@ -44,7 +45,6 @@ class UtilisateurController extends AbstractController
             'utilisateur' => $utilisateur,
         ]);
     }
-    
 
     // Route pour créer un nouvel utilisateur
     #[Route('/utilisateur/create', name: 'utilisateur_create')]
@@ -60,6 +60,13 @@ class UtilisateurController extends AbstractController
             $utilisateur->setPassword(password_hash($data['password'], PASSWORD_BCRYPT));
             $utilisateur->setRole((int)$data['role']);
 
+            // Enregistrer la permission temporaire si définie
+            if (!empty($data['temporary_permission_expiry'])) {
+                $utilisateur->setTemporaryPermissionExpiry(new \DateTime($data['temporary_permission_expiry']));
+            } else {
+                $utilisateur->setTemporaryPermissionExpiry(null);
+            }
+
             $this->entityManager->persist($utilisateur);
             $this->entityManager->flush();
 
@@ -69,6 +76,8 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/create.html.twig');
     }
 
+    // Route pour modifier un utilisateur
+    #[Route('/utilisateur/{id}/edit', name: 'utilisateur_edit')]
     public function edit(int $id, Request $request): Response
     {
         // Récupérer l'utilisateur par son ID
@@ -91,7 +100,16 @@ class UtilisateurController extends AbstractController
             if (!empty($data['password'])) {
                 $utilisateur->setPassword(password_hash($data['password'], PASSWORD_BCRYPT));
             }
+
+            // Mise à jour de la permission temporaire pour la création de commission
+            if (!empty($data['temporary_permission_expiry'])) {
+                $utilisateur->setTemporaryPermissionExpiry(new \DateTime($data['temporary_permission_expiry']));
+            } else {
+                // Si la date est vide, on la supprime
+                $utilisateur->setTemporaryPermissionExpiry(null);
+            }
     
+            // Sauvegarder les modifications dans la base de données
             $this->entityManager->flush();
     
             // Rediriger vers la page d'affichage de l'utilisateur
@@ -103,7 +121,6 @@ class UtilisateurController extends AbstractController
             'utilisateur' => $utilisateur,
         ]);
     }
-    
 
     // Route pour supprimer un utilisateur
     #[Route('/utilisateur/{id}/delete', name: 'utilisateur_delete', methods: ['DELETE'])]
