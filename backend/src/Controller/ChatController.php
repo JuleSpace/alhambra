@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Commission;
 use App\Entity\Message;
+use App\Entity\Utilisateur;
 use App\Entity\Notification;
+use App\Entity\LinkCommUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class ChatController extends AbstractController
 {
@@ -84,6 +87,18 @@ class ChatController extends AbstractController
             'commission' => $commission
         ]);
 
+        // Si la notification existe et que l'utilisateur n'a pas encore consulté le chat, mettre à jour messagesRates et dateLastChecked
+        if ($notification) {
+            // Réinitialiser le compteur de messages non lus (messagesRates) à 0
+            $notification->setMessagesRates(0);
+
+            // Mettre à jour la date de la dernière vérification des messages
+            $notification->setDateLastChecked(new \DateTime());
+
+            // Sauvegarder les modifications dans la base de données
+            $entityManager->flush();
+        }
+
         return $this->render('chat/show.html.twig', [
             'commission' => $commission,
             'user' => $user,
@@ -91,6 +106,7 @@ class ChatController extends AbstractController
             'notification' => $notification, // Passer l'objet notification à la vue pour vérifier son état
         ]);
     }
+
 
     // Route pour envoyer un message via l'API
     #[Route('/api/chat/messages', name: 'chat_message_create', methods: ['POST'])]
@@ -100,13 +116,13 @@ class ChatController extends AbstractController
 
         // Validation des données
         if (empty($data['content']) || empty($data['commission'])) {
-            return new JsonResponse(['error' => 'Invalid data'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         }
 
         // Vérification de la validité de la commission
         $commission = $entityManager->getRepository(Commission::class)->find($data['commission']);
         if (!$commission) {
-            return new JsonResponse(['error' => 'Invalid commission'], JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Invalid commission'], Response::HTTP_BAD_REQUEST);
         }
 
         // Créer un nouveau message
@@ -115,9 +131,32 @@ class ChatController extends AbstractController
         $message->setSender($this->getUser()); // Utilisateur connecté
         $message->setCommission($commission);
 
-        $entityManager->persist($message);
-        $entityManager->flush();
+        // Persist du message
+        try {
+            $entityManager->persist($message);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to save message'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
+        // Récupérer tous les utilisateurs qui ont des notifications activées pour cette commission
+        $notifications = $entityManager->getRepository(Notification::class)->findBy([
+            'commission' => $commission,
+            'notificationsEnabled' => true // Ne récupérer que ceux qui ont activé les notifications
+        ]);
+
+        foreach ($notifications as $notification) {
+            $user = $notification->getUtilisateur();
+
+            // S'assurer que l'utilisateur n'est pas celui qui a posté le message
+            if ($user !== $this->getUser()) {
+                // Incrémenter messagesRates pour cet utilisateur
+                $notification->setMessagesRates($notification->getMessagesRates() + 1);
+                $entityManager->flush();  // Sauvegarder les modifications
+            }
+        }
+
+        // Retourner une réponse JSON avec le message
         return $this->json([
             'status' => 'Message créé avec succès',
             'message' => [
@@ -127,8 +166,11 @@ class ChatController extends AbstractController
                 'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
                 'commission' => $message->getCommission()->getNom(),
             ]
-        ], JsonResponse::HTTP_CREATED);
+        ], Response::HTTP_CREATED);
     }
+
+
+
 
     // Route pour activer/désactiver les notifications pour une commission donnée
     #[Route('/chat/{commissionId}/toggle-notifications', name: 'toggle_notifications', methods: ['POST'])]
